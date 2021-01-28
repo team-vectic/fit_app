@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "626936669727",
+    "project_id": "fitapp-af578",
+    "storage_bucket": "fitapp-af578.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626936669727:android:15030804f598194982572a",
+        "android_client_info": {
+          "package_name": "iDo.app.fit_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626936669727-enolkvl7g0vkuj1tu01k3l7abmn8a6kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDxnLDwPaaIz3lRzLQqbYEvtx8pJjOlhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626936669727-enolkvl7g0vkuj1tu01k3l7abmn8a6kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
