@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Auth',
+        title: 'Flutter-Auth',
         theme: ThemeData(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,
