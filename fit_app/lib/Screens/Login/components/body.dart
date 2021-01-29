@@ -6,7 +6,8 @@ import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_app/fitness_app_home_screen.dart';
 class Body extends StatelessWidget {
   const Body({
     Key key,
@@ -69,7 +70,7 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {signIn(email, password);},
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
