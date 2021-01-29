@@ -4,20 +4,50 @@ import 'package:fit_app/Screens/Signup/components/background.dart';
 import 'package:fit_app/Screens/Signup/components/or_divider.dart';
 import 'package:fit_app/fitness_app_home_screen.dart';
 
-import 'package:fit_app/Screens/Signup/components/social_icon.dart';
 import 'package:fit_app/components/already_have_an_account_acheck.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class AddUser extends StatelessWidget {
+  final String email;
+  final String password;
+
+  AddUser(this.email, this.password);
+
+  @override
+  Widget build(BuildContext context) {
+  }
+
+  }
 
 class Body extends StatelessWidget {
-  FirebaseAuth auth = FirebaseAuth.instance;
 
 
   @override
   Widget build(BuildContext context) {
+        Future<void> addUser(email, password) {
+      // Call the user's CollectionReference to add a new user
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+      return users
+          .add({
+            'email': email, 
+            'password': password,
+          })
+          .then((value) =>           
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FitnessAppHomeScreen()),
+          ),
+          )
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
+      FirebaseAuth auth = FirebaseAuth.instance;
 
       Future<void> signUp(email, password) async {
        try {
@@ -25,11 +55,7 @@ class Body extends StatelessWidget {
         email: email,
         password: password
       );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => FitnessAppHomeScreen()),
-      );
-
+      addUser(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
