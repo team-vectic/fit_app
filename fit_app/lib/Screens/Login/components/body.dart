@@ -6,6 +6,8 @@ import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_app/fitness_app_home_screen.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -14,6 +16,32 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+
+    Future<void> signIn(email, password) async {
+       try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FitnessAppHomeScreen()),
+      );
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    
+  }
+    String email = "";
+    String password = "";
     Size size = MediaQuery.of(context).size;
     return Background(
       child: SingleChildScrollView(
@@ -32,14 +60,14 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {email=value;},
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {email=value;},
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {signIn(email, password);},
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
