@@ -6,8 +6,6 @@ import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_app/fitness_app_home_screen.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -16,6 +14,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     FirebaseAuth auth = FirebaseAuth.instance;
     String email = "";
     String password = "";
@@ -61,14 +60,16 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {email=value;},
+              onChanged: (value) {},
             ),
             RoundedPasswordField(
+
               onChanged: (value) {password=value;},
+
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {signIn(email, password);},
+              press: () {},
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

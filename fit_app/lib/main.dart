@@ -1,4 +1,3 @@
-import 'package:fit_app/fitness_app_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/Screens/Welcome/welcome_screen.dart';
 import 'package:fit_app/constants.dart';
