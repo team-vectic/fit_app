@@ -1,0 +1,39 @@
+users->
+
+food ->
+	date ->
+		burned-
+		eaten->
+			carbs
+			protein 
+			fat
+			watersofar
+			lastdrink- 
+			breakfast
+			lunch->
+
+			snacks->
+
+			dinner->
+
+ON SIGN UP-
+
+bodydata ->
+	users ->
+		USERID->
+			weight-
+			height- 
+			bmi- 
+			body fat- 
+			
+			watergoal- 
+			caloriegoal-
+			
+			gender-
+			age-
+		
+
+
+
+AGE = 1 = WOMEN
+AGE = 0 = MALE 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fit_app/Screens/Login/login_screen.dart';
 import 'package:fit_app/Screens/Signup/components/background.dart';
 import 'package:fit_app/Screens/Signup/components/or_divider.dart';
-import 'package:fit_app/fitness_app_home_screen.dart';
+import 'package:fit_app/Screens/Signup/measurements.dart';
 
 import 'package:fit_app/components/already_have_an_account_acheck.dart';
 import 'package:fit_app/components/rounded_button.dart';
@@ -12,27 +12,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AddUser extends StatelessWidget {
-  final String email;
-  final String password;
 
-  AddUser(this.email, this.password);
-
-  @override
-  Widget build(BuildContext context) {
-  }
-
-  }
 
 class Body extends StatelessWidget {
 
 
   @override
   Widget build(BuildContext context) {
-        Future<void> addUser(email, password) {
+    UserCredential userCredential;
+    String userid; 
+     Future<void> addUser(email, password) {
       // Call the user's CollectionReference to add a new user
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
-
+      CollectionReference users = FirebaseFirestore.instance.collection('users/$userid');
       return users
           .add({
             'email': email, 
@@ -41,20 +32,21 @@ class Body extends StatelessWidget {
           .then((value) =>           
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FitnessAppHomeScreen()),
+            MaterialPageRoute(builder: (context) => Measurements(userCredential.user.uid.toString())
           ),
           )
-          .catchError((error) => print("Failed to add user: $error"));
+          .catchError((error) => print("Failed to add user: $error")));
     }
 
       FirebaseAuth auth = FirebaseAuth.instance;
 
       Future<void> signUp(email, password) async {
        try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password
       );
+        userid = userCredential.user.uid;
       addUser(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
