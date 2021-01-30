@@ -8,6 +8,8 @@ class MyProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -25,15 +27,14 @@ class MyProfile extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -273,17 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   
                   ) 
               ),
-
-
                 ),
-
-
-
-              
               ),
-          
-
-
             ],
           
       
