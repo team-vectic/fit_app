@@ -1,4 +1,4 @@
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BodyMeasurementView extends StatelessWidget {
@@ -23,7 +23,7 @@ class BodyMeasurementView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.white,
+                  color: FitnessAppTheme.nearlyDark,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -31,7 +31,7 @@ class BodyMeasurementView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.2),
+                        color: FitnessAppTheme.white.withOpacity(0.2),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -56,7 +56,7 @@ class BodyMeasurementView extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                   letterSpacing: -0.1,
-                                  color: FitnessAppTheme.darkText),
+                                  color: FitnessAppTheme.white),
                             ),
                           ),
                           Row(
@@ -71,13 +71,13 @@ class BodyMeasurementView extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 4, bottom: 3),
                                     child: Text(
-                                      '206.8',
+                                      '46',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 32,
-                                        color: FitnessAppTheme.nearlyDarkBlue,
+                                        color: FitnessAppTheme.white,
                                       ),
                                     ),
                                   ),
@@ -85,14 +85,14 @@ class BodyMeasurementView extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 8, bottom: 8),
                                     child: Text(
-                                      'Ibs',
+                                      'Kg',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
                                         letterSpacing: -0.2,
-                                        color: FitnessAppTheme.nearlyDarkBlue,
+                                        color: FitnessAppTheme.white,
                                       ),
                                     ),
                                   ),
@@ -107,8 +107,7 @@ class BodyMeasurementView extends StatelessWidget {
                                     children: <Widget>[
                                       Icon(
                                         Icons.access_time,
-                                        color: FitnessAppTheme.grey
-                                            .withOpacity(0.5),
+                                        color: FitnessAppTheme.white,
                                         size: 16,
                                       ),
                                       Padding(
@@ -123,27 +122,11 @@ class BodyMeasurementView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                             letterSpacing: 0.0,
-                                            color: FitnessAppTheme.grey
-                                                .withOpacity(0.5),
+                                            color: FitnessAppTheme.white
                                           ),
                                         ),
                                       ),
                                     ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 4, bottom: 14),
-                                    child: Text(
-                                      'InBody SmartScale',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: FitnessAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        letterSpacing: 0.0,
-                                        color: FitnessAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
                                   ),
                                 ],
                               )
@@ -174,14 +157,14 @@ class BodyMeasurementView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '185 cm',
+                                  '162 cm',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: FitnessAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
                                     letterSpacing: -0.2,
-                                    color: FitnessAppTheme.darkText,
+                                    color: FitnessAppTheme.white,
                                   ),
                                 ),
                                 Padding(
@@ -194,7 +177,7 @@ class BodyMeasurementView extends StatelessWidget {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       color:
-                                          FitnessAppTheme.grey.withOpacity(0.5),
+                                          FitnessAppTheme.white,
                                     ),
                                   ),
                                 ),
@@ -211,27 +194,26 @@ class BodyMeasurementView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      '27.3 BMI',
+                                      '17.3 BMI',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         letterSpacing: -0.2,
-                                        color: FitnessAppTheme.darkText,
+                                        color: FitnessAppTheme.white,
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 6),
                                       child: Text(
-                                        'Overweight',
+                                        'Goalweight',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
-                                          color: FitnessAppTheme.grey
-                                              .withOpacity(0.5),
+                                          color: FitnessAppTheme.white
                                         ),
                                       ),
                                     ),
@@ -250,13 +232,13 @@ class BodyMeasurementView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Text(
-                                      '20%',
+                                      '17%',
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         letterSpacing: -0.2,
-                                        color: FitnessAppTheme.darkText,
+                                        color: FitnessAppTheme.white,
                                       ),
                                     ),
                                     Padding(
@@ -268,8 +250,7 @@ class BodyMeasurementView extends StatelessWidget {
                                           fontFamily: FitnessAppTheme.fontName,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
-                                          color: FitnessAppTheme.grey
-                                              .withOpacity(0.5),
+                                          color: FitnessAppTheme.white
                                         ),
                                       ),
                                     ),

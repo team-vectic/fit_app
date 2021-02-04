@@ -1,20 +1,38 @@
 import 'package:fit_app/ui_view/wave_view.dart';
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class WaterView extends StatefulWidget {
+
   const WaterView(
       {Key key, this.mainScreenAnimationController, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController mainScreenAnimationController;
   final Animation<dynamic> mainScreenAnimation;
-
   @override
   _WaterViewState createState() => _WaterViewState();
 }
 
 class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
+    var watergoal;
+
+  void getFirebaseData()
+  {
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance.collection("bodydata").doc(firebaseUser.uid).get().then((value){
+      watergoal = value.data()["watergoal"].toString();
+    });  
+    
+  }
+    
+  @override
+  void initState() { 
+    super.initState();
+
+  }
+  
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
@@ -22,7 +40,10 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    getFirebaseData();
+
     return AnimatedBuilder(
+      
       animation: widget.mainScreenAnimationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
@@ -35,7 +56,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.white,
+                  color: FitnessAppTheme.nearlyDark,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -74,7 +95,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                           fontFamily: FitnessAppTheme.fontName,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 32,
-                                          color: FitnessAppTheme.nearlyDarkBlue,
+                                          color: FitnessAppTheme.white,
                                         ),
                                       ),
                                     ),
@@ -89,7 +110,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                           fontWeight: FontWeight.w500,
                                           fontSize: 18,
                                           letterSpacing: -0.2,
-                                          color: FitnessAppTheme.nearlyDarkBlue,
+                                          color: FitnessAppTheme.white,
                                         ),
                                       ),
                                     ),
@@ -99,14 +120,14 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                       left: 4, top: 2, bottom: 14),
                                   child: Text(
-                                    'of daily goal 3.5L',
+                                    'Out of $watergoal L',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14,
                                       letterSpacing: 0.0,
-                                      color: FitnessAppTheme.darkText,
+                                      color: FitnessAppTheme.white,
                                     ),
                                   ),
                                 ),
@@ -139,8 +160,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                         padding: const EdgeInsets.only(left: 4),
                                         child: Icon(
                                           Icons.access_time,
-                                          color: FitnessAppTheme.grey
-                                              .withOpacity(0.5),
+                                          color: FitnessAppTheme.white,
                                           size: 16,
                                         ),
                                       ),
@@ -156,15 +176,14 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                             letterSpacing: 0.0,
-                                            color: FitnessAppTheme.grey
-                                                .withOpacity(0.5),
+                                            color: FitnessAppTheme.white
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 4),
+                                    padding: const EdgeInsets.only(top: 8),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -275,7 +294,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                             ],
                           ),
                           child: WaveView(
-                            percentageValue: 60.0,
+                            percentageValue: 70.0,
                           ),
                         ),
                       )

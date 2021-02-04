@@ -1,4 +1,4 @@
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/models/meals_list_data.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/material.dart';
@@ -239,14 +239,14 @@ class MealsView extends StatelessWidget {
                       width: 84,
                       height: 84,
                       decoration: BoxDecoration(
-                        color: FitnessAppTheme.nearlyWhite.withOpacity(0.2),
+                        color: FitnessAppTheme.nearlyDark.withOpacity(0.2),
                         shape: BoxShape.circle,
                       ),
                     ),
                   ),
                   Positioned(
                     top: 0,
-                    left: 8,
+                    left: 5,
                     child: SizedBox(
                       width: 80,
                       height: 80,

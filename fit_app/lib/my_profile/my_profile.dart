@@ -1,5 +1,5 @@
 import 'package:fit_app/Screens/Welcome/welcome_screen.dart';
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';

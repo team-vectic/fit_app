@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
@@ -87,7 +87,7 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
             new ClipPath(
               child: new Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.nearlyDarkBlue.withOpacity(0.5),
+                  color: FitnessAppTheme.nearlyDarkBlue.withOpacity(0.8),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(80.0),
                       bottomLeft: Radius.circular(80.0),

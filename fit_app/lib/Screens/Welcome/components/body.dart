@@ -20,7 +20,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Text(
               "WELCOME TO FIT-APP",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(

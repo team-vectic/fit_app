@@ -3,7 +3,7 @@ import 'package:fit_app/my_profile/my_profile.dart';
 import 'package:fit_app/traning/training_screen.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
-import 'fintness_app_theme.dart';
+import 'fitness_app_theme.dart';
 import 'my_diary/my_diary_screen.dart';
 
 
@@ -46,7 +46,8 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      color: FitnessAppTheme.background,
+      color: FitnessAppTheme.darkBackground,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(

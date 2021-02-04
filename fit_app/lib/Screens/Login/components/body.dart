@@ -16,7 +16,6 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    FirebaseAuth auth = FirebaseAuth.instance;
     String email = "";
     String password = "";
 
@@ -51,7 +50,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Text(
               "Login",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
@@ -64,9 +63,7 @@ class Body extends StatelessWidget {
               onChanged: (value) {email=value;},
             ),
             RoundedPasswordField(
-
               onChanged: (value) {password=value;},
-
             ),
             RoundedButton(
               text: "LOGIN",

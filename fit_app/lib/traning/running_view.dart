@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../fintness_app_theme.dart';
+import '../fitness_app_theme.dart';
+import 'package:flutter_emoji/flutter_emoji.dart';
 
 class RunningView extends StatelessWidget {
   final AnimationController animationController;
@@ -10,6 +11,8 @@ class RunningView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var coffee = Emoji('coffee', '☕');
+
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -30,7 +33,7 @@ class RunningView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16, bottom: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: FitnessAppTheme.white,
+                            color: FitnessAppTheme.nearlyDark,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
@@ -79,7 +82,7 @@ class RunningView extends StatelessWidget {
                                             fontSize: 14,
                                             letterSpacing: 0.0,
                                             color:
-                                                FitnessAppTheme.nearlyDarkBlue,
+                                                FitnessAppTheme.white,
                                           ),
                                         ),
                                       ),
@@ -93,15 +96,14 @@ class RunningView extends StatelessWidget {
                                       right: 16,
                                     ),
                                     child: Text(
-                                      "Keep it up\nand stick to your plan!",
+                                      "Keep it up! 🏃",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 10,
                                         letterSpacing: 0.0,
-                                        color: FitnessAppTheme.grey
-                                            .withOpacity(0.5),
+                                        color: FitnessAppTheme.white
                                       ),
                                     ),
                                   ),

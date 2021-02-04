@@ -37,3 +37,7 @@ bodydata ->
 
 AGE = 1 = WOMEN
 AGE = 0 = MALE 
+<<<<<<< Updated upstream
+=======
+b
+>>>>>>> Stashed changes

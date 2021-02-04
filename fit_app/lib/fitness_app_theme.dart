@@ -5,7 +5,12 @@ class FitnessAppTheme {
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
+  static const Color darkBackground = Color.fromRGBO(18,18,18,1);
+
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
+
+  static const Color cyanText = Color(0xFF2633C5);
+  static const Color nearlyDark = Color.fromRGBO(30, 30, 30, 1);
 
   static const Color nearlyBlue = Color(0xFF00B6F0);
   static const Color nearlyBlack = Color(0xFF213333);

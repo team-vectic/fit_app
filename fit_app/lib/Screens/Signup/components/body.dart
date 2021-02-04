@@ -16,28 +16,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatelessWidget {
 
-
   @override
   Widget build(BuildContext context) {
+    final _firestore = FirebaseFirestore.instance;
     UserCredential userCredential;
-    String userid; 
-     Future<void> addUser(email, password) {
+     Future<void> addUser(email, password, userid) {
       // Call the user's CollectionReference to add a new user
-      CollectionReference users = FirebaseFirestore.instance.collection('users/$userid');
+      CollectionReference users = _firestore.collection('users/');
       return users
-          .add({
+          .doc('$userid')
+          .set({
             'email': email, 
             'password': password,
           })
-          .then((value) =>           
-          Navigator.push(
+          .then((value) =>       
+            Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Measurements(userCredential.user.uid.toString())
-          ),
+            MaterialPageRoute(builder: (context) => Measurements())
+          ),          
           )
-          .catchError((error) => print("Failed to add user: $error")));
+          .catchError((error) => print("Failed to add user: $error"));
     }
-
       FirebaseAuth auth = FirebaseAuth.instance;
 
       Future<void> signUp(email, password) async {
@@ -46,8 +45,7 @@ class Body extends StatelessWidget {
         email: email,
         password: password
       );
-        userid = userCredential.user.uid;
-      addUser(email, password);
+        addUser(email, password, auth.currentUser.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -70,7 +68,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Text(
               "SIGNUP",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               
             ),
             SizedBox(height: size.height * 0.03),

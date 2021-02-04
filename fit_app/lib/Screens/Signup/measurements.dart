@@ -1,3 +1,4 @@
+import 'package:fit_app/constants.dart';
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/components/rounded_button.dart';
@@ -6,18 +7,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fit_app/components/text_field_container.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:fit_app/fitness_app_home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class Measurements extends StatefulWidget {
-  String userid = "Woman";
-  Measurements(String userid);
 
   @override
-  _Measurements createState() => _Measurements(userid);
+  _Measurements createState() => _Measurements();
 
 }
 class _Measurements extends State<Measurements> {
-  String userid = "";
 
-  _Measurements(String userid);
+    @override
+  void initState() { 
+    super.initState();
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.authStateChanges()
+    .listen((User user) {
+      if (user == null) {
+        print('User is currently signed out!');
+
+      } else {
+        print('User is signed in!');
+        userid = user.uid;
+      }
+    });
+  }
+  
+
+    String userid = "";
+
     bool _toggled = true;
     Color inactivecolor = Colors.blue;
     Color activecolor = Colors.red;
@@ -43,9 +60,10 @@ class _Measurements extends State<Measurements> {
     }
      Future<void> addUser() {
       // Call the user's CollectionReference to add a new user
-      CollectionReference bodydata = FirebaseFirestore.instance.collection('bodydata/$userid');
+      CollectionReference bodydata = FirebaseFirestore.instance.collection('bodydata/');
       return bodydata
-          .add({
+          .doc('$userid')
+          .set({
             'weight' : weight, 
             'height' : height,
             'bmi' : weight / (height*height),
@@ -80,6 +98,7 @@ class _Measurements extends State<Measurements> {
           Stack(
           children: <Widget>[
           Background(
+          
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +106,7 @@ class _Measurements extends State<Measurements> {
                 SizedBox(height: size.height * 0.05),
                 Text(
                   "Measurements",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
                 ),
                 SizedBox(height: size.height * 0.03),
                 Image.asset(
@@ -113,6 +132,7 @@ class _Measurements extends State<Measurements> {
                     hintText: "Weight (KG)",
                     icon: Icons.accessibility,
                     onChanged: (value) {weight=double.parse(value);},
+
                 ),
                 SizedBox(height: size.height * 0.02),
 
@@ -125,7 +145,7 @@ class _Measurements extends State<Measurements> {
                 SizedBox(height: size.height * 0.02),
 
                 InputField(
-                    hintText: "Height (CM)",
+                    hintText: "Height (M)",
                     icon: Icons.height,
                     onChanged: (value) {height=double.parse(value);},
                 
@@ -199,14 +219,16 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
+        style: TextStyle(color: Colors.white),
         onChanged: onChanged,
         cursorColor: Colors.purple,
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: Colors.amberAccent,
+            color: kPrimaryLightColor,
           ),
           hintText: hintText,
+          hintStyle: TextStyle(color:Colors.white),
           border: InputBorder.none,
         ),
       ),

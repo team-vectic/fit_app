@@ -1,4 +1,4 @@
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TitleView extends StatelessWidget {
@@ -39,7 +39,7 @@ class TitleView extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                           letterSpacing: 0.5,
-                          color: FitnessAppTheme.lightText,
+                          color: FitnessAppTheme.white,
                         ),
                       ),
                     ),
@@ -59,7 +59,7 @@ class TitleView extends StatelessWidget {
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
                                 letterSpacing: 0.5,
-                                color: FitnessAppTheme.nearlyDarkBlue,
+                                color: FitnessAppTheme.cyanText.withOpacity(0.8),
                               ),
                             ),
                             SizedBox(

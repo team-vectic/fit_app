@@ -1,3 +1,4 @@
+import 'package:fit_app/constants.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
@@ -12,6 +13,7 @@ class Background extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height,
+      color: kDarkBackground,
       width: double.infinity,
       // Here i can use size.width but use double.infinity because both work as a same
       child: Stack(

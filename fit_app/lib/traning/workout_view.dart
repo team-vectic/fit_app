@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../fintness_app_theme.dart';
+import '../fitness_app_theme.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class WorkoutView extends StatelessWidget {
@@ -25,8 +25,8 @@ class WorkoutView extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    FitnessAppTheme.nearlyDarkBlue,
-                    HexColor("#6F56E8")
+                    FitnessAppTheme.nearlyDark,
+                    HexColor("#6F56E8").withOpacity(0.5)
                   ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),

@@ -2,7 +2,7 @@ import 'package:fit_app/ui_view/body_measurement.dart';
 import 'package:fit_app/ui_view/glass_view.dart';
 import 'package:fit_app/ui_view/mediterranesn_diet_view.dart';
 import 'package:fit_app/ui_view/title_view.dart';
-import 'package:fit_app/fintness_app_theme.dart';
+import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/my_diary/meals_list_view.dart';
 import 'package:fit_app/my_diary/water_view.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +126,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     listViews.add(
       TitleView(
         titleTxt: 'Water',
-        subTxt: 'Aqua SmartBottle',
+        subTxt: 'More about drinking times',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -164,7 +164,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: FitnessAppTheme.darkBackground,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -220,7 +220,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                     0.0, 30 * (1.0 - topBarAnimation.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color: FitnessAppTheme.nearlyDark.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
@@ -257,7 +257,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     fontWeight: FontWeight.w700,
                                     fontSize: 22 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
-                                    color: FitnessAppTheme.darkerText,
+                                    color: FitnessAppTheme.white,
                                   ),
                                 ),
                               ),
@@ -273,7 +273,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 child: Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_left,
-                                    color: FitnessAppTheme.grey,
+                                    color: FitnessAppTheme.white,
                                   ),
                                 ),
                               ),
@@ -289,7 +289,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     padding: const EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.calendar_today,
-                                      color: FitnessAppTheme.grey,
+                                      color: FitnessAppTheme.white,
                                       size: 18,
                                     ),
                                   ),
@@ -301,7 +301,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                       fontWeight: FontWeight.normal,
                                       fontSize: 18,
                                       letterSpacing: -0.2,
-                                      color: FitnessAppTheme.darkerText,
+                                      color: FitnessAppTheme.white,
                                     ),
                                   ),
                                 ],
@@ -318,7 +318,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 child: Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_right,
-                                    color: FitnessAppTheme.grey,
+                                    color: FitnessAppTheme.white,
                                   ),
                                 ),
                               ),

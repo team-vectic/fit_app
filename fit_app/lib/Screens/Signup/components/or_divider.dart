@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fit_app/constants.dart';
 
 class OrDivider extends StatelessWidget {
   @override
@@ -16,7 +15,7 @@ class OrDivider extends StatelessWidget {
             child: Text(
               "OR",
               style: TextStyle(
-                color: kPrimaryColor,
+                color: Colors.white,
                 fontWeight: FontWeight.w600,
               ),
             ),
