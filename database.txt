@@ -1,25 +1,31 @@
-users->
+
 
 food ->
-	date ->
-		burned-
-		eaten->
-			carbs
-			protein 
-			fat
-			watersofar
-			lastdrink- 
-			breakfast
-			lunch->
-
-			snacks->
-
-			dinner->
-
 ON SIGN UP-
 
+users ->
+	USERID -> 
+		email:
+		password:
+		date ->
+			burned-
+			eaten->
+				carbs
+				protein 
+				fat
+				watersofar
+				lastdrink- 
+				breakfast
+				lunch->
+
+				snacks->
+
+				dinner->
+
+
+
+
 bodydata ->
-	users ->
 		USERID->
 			weight-
 			height- 

@@ -22,10 +22,12 @@ environment:
 
 dependencies:
   cloud_firestore: "^0.16.0"
-  flutter_svg: ^0.18.0
   flutter_emoji: ">= 2.0.0"
   hexcolor: ^1.0.6
   intl: ^0.16.1
+  http: ^0.12.2
+  provider: ^4.3.3
+
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
@@ -33,9 +35,9 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dependency_overrides:
-  firebase_core: ^0.7.0
-  firebase_analytics: ^5.0.2
-  firebase_auth: ^0.20.0+1
+  firebase_core: "^0.7.0"
+  cloud_firestore: "^0.16.0"
+  firebase_auth: "^0.20.0+1"
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +59,7 @@ flutter:
      - lib/assets/fitness_app/
      - lib/assets/icons/
      - lib/assets/images/
-
+     - lib/assets/food.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -26,11 +26,12 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
     });  
     
   }
-    
+
   @override
   void initState() { 
     super.initState();
-
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => getFirebaseData());
   }
   
   Future<bool> getData() async {
@@ -40,7 +41,6 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    getFirebaseData();
 
     return AnimatedBuilder(
       

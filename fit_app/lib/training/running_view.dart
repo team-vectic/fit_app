@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../fitness_app_theme.dart';
-import 'package:flutter_emoji/flutter_emoji.dart';
 
 class RunningView extends StatelessWidget {
   final AnimationController animationController;
@@ -11,8 +10,6 @@ class RunningView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var coffee = Emoji('coffee', '☕');
-
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {

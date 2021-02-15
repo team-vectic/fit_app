@@ -1,5 +1,5 @@
 import 'package:fit_app/constants.dart';
-import 'package:fit_app/fitness_app_theme.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/Screens/Signup/components/background.dart';
@@ -56,31 +56,30 @@ class _Measurements extends State<Measurements> {
       {
         gender = 0;
       }
-      addUser();
+      addUserBodyData();
     }
-     Future<void> addUser() {
-      // Call the user's CollectionReference to add a new user
-      CollectionReference bodydata = FirebaseFirestore.instance.collection('bodydata/');
-      return bodydata
-          .doc('$userid')
-          .set({
-            'weight' : weight, 
-            'height' : height,
-            'bmi' : weight / (height*height),
-            'watergoal' : watergoal,
-            'caloriegoal' : caloriegoal,
-            'gender' : gender,
-            'age' : age,
-          })
-          .then((value) =>           
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
-          ),
-          )
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
+    Future<void> addUserBodyData() {
+    CollectionReference bodydata = FirebaseFirestore.instance.collection('bodydata/');
+    double bmi = weight / (height*height);
+    return bodydata
+        .doc('$userid')
+        .set({
+          'weight' : weight, 
+          'height' : height,
+          'bmi' : bmi.round(),
+          'watergoal' : watergoal,
+          'caloriegoal' : caloriegoal,
+          'gender' : gender,
+          'age' : age,
+        })
+        .then((value) =>           
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
+        ),
+        )
+        .catchError((error) => print("Failed to add user: $error"));
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,6 @@ import 'package:fit_app/fitness_app_home_screen.dart';
 import 'package:fit_app/Screens/Welcome/components/background.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/constants.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class Body extends StatelessWidget {
   @override
@@ -23,10 +22,6 @@ class Body extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: size.height * 0.05),
-            SvgPicture.asset(
-              "lib/assets/icons/chat.svg",
-              height: size.height * 0.45,
-            ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
               text: "LOGIN",

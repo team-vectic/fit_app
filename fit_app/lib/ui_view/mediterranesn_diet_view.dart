@@ -3,17 +3,45 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-class MediterranesnDietView extends StatelessWidget {
-  final AnimationController animationController;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+class MediterranesnDietView extends StatefulWidget {
+    final AnimationController animationController;
   final Animation animation;
-  String userid; 
-  FirebaseAuth auth = FirebaseAuth.instance; 
 
   MediterranesnDietView(
       {Key key, this.animationController, this.animation})
       : super(key: key);
 
+  @override
+  _MediterranesnDietViewState createState() => _MediterranesnDietViewState();
+}
+
+class _MediterranesnDietViewState extends State<MediterranesnDietView> {
+  String userid, eaten, burned, carbs, protein, fat; 
+  FirebaseAuth auth = FirebaseAuth.instance; 
+
+
+  Future<void> ReadUserToday(var today) async {
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance.collection("users").doc('$firebaseUser/$today').get().then((value){
+      burned = value.data()["burned"].toString();
+    });  
+    
+  }
+
+
+    @override
+    void initState() { 
+      super.initState();
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String today = formatter.format(now);
+      ReadUserToday(today);
+
+
+      
+    }
 
 
   @override
@@ -21,13 +49,13 @@ class MediterranesnDietView extends StatelessWidget {
     final User user = auth.currentUser;
     userid = user.uid; 
     return AnimatedBuilder(
-      animation: animationController,
+      animation: widget.animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
-          opacity: animation,
+          opacity: widget.animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
+                0.0, 30 * (1.0 - widget.animation.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 16, bottom: 18),
@@ -112,7 +140,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(1127 * animation.value).toInt()}',
+                                                    '$burned',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -210,7 +238,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(102 * animation.value).toInt()}',
+                                                    '${(102 * widget.animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -285,7 +313,7 @@ class MediterranesnDietView extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            '${(1503 * animation.value).toInt()}',
+                                            '${(1503 * widget.animation.value).toInt()}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily:
@@ -325,7 +353,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           ],
                                           angle: 140 +
                                               (360 - 140) *
-                                                  (1.0 - animation.value)),
+                                                  (1.0 - widget.animation.value)),
                                       child: SizedBox(
                                         width: 108,
                                         height: 108,
@@ -385,7 +413,7 @@ class MediterranesnDietView extends StatelessWidget {
                                     child: Row(
                                       children: <Widget>[
                                         Container(
-                                          width: ((70 / 1.2) * animation.value),
+                                          width: ((70 / 1.2) * widget.animation.value),
                                           height: 4,
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
@@ -453,7 +481,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           children: <Widget>[
                                             Container(
                                               width: ((70 / 2) *
-                                                  animationController.value),
+                                                  widget.animationController.value),
                                               height: 4,
                                               decoration: BoxDecoration(
                                                 gradient:
@@ -523,7 +551,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           children: <Widget>[
                                             Container(
                                               width: ((70 / 2.5) *
-                                                  animationController.value),
+                                                  widget.animationController.value),
                                               height: 4,
                                               decoration: BoxDecoration(
                                                 gradient:
@@ -688,3 +716,4 @@ class CurvePainter extends CustomPainter {
     return redian;
   }
 }
+

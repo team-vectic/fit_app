@@ -8,7 +8,6 @@ import 'package:fit_app/components/already_have_an_account_acheck.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -72,10 +71,6 @@ class Body extends StatelessWidget {
               
             ),
             SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "lib/assets/icons/signup.svg",
-              height: size.height * 0.35,
-            ),
             RoundedInputField(
               hintText: "Your Email",
               onChanged: (value) {email=value;},

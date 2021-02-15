@@ -1,7 +1,7 @@
 import 'package:fit_app/ui_view/area_list_view.dart';
-import 'package:fit_app/traning/running_view.dart';
+import 'package:fit_app/training/running_view.dart';
 import 'package:fit_app/ui_view/title_view.dart';
-import 'package:fit_app/traning/workout_view.dart';
+import 'package:fit_app/training/workout_view.dart';
 import 'package:flutter/material.dart';
 
 import '../fitness_app_theme.dart';

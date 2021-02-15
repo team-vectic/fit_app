@@ -5,7 +5,6 @@ import 'package:fit_app/components/already_have_an_account_acheck.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_app/fitness_app_home_screen.dart';
 class Body extends StatelessWidget {
@@ -53,10 +52,6 @@ class Body extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: size.height * 0.03),
-            SvgPicture.asset(
-              "lib/assets/icons/login.svg",
-              height: size.height * 0.35,
-            ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",

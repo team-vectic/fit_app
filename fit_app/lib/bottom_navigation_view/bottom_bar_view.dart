@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/models/tabIcon_data.dart';
+import 'package:fit_app/ui_view/add_food.dart';
 import 'package:flutter/material.dart';
 
 import '../models/tabIcon_data.dart';
@@ -120,7 +121,7 @@ class _BottomBarViewState extends State<BottomBarView>
         Padding(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: SizedBox(
+            child:SizedBox(
             width: 38 * 2.0,
             height: 38 + 62.0,
             child: Container(
@@ -163,7 +164,7 @@ class _BottomBarViewState extends State<BottomBarView>
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           onTap: () {
-                            widget.addClick();
+                              widget.changeIndex(4);
                           },
                           child: Icon(
                             Icons.add,
@@ -178,7 +179,8 @@ class _BottomBarViewState extends State<BottomBarView>
               ),
             ),
           ),
-        ),
+          ),
+        
       ],
     );
   }
