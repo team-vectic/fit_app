@@ -1,11 +1,10 @@
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 class BodyMeasurementView extends StatefulWidget {
-  @override
   final AnimationController animationController;
   final Animation animation;
 
@@ -20,32 +19,35 @@ class BodyMeasurementView extends StatefulWidget {
 class _BodyMeasurementViewState extends State<BodyMeasurementView> {
 
 
-    var weight, height, bmi,bmiStatus, bodyfat;
+    var weight, height, bmi,bmiStatus;
 
     void getFirebaseData()
     {
-      var firebaseUser =  FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection("bodydata").doc(firebaseUser.uid).get().then((value){
-        weight = value.data()["weight"].toString();
-        height = value.data()["height"].toString();
-        bmi = value.data()["bmi"].toString();
-        bodyfat = "N--";
-        if (int.parse(bmi) < 18.5){
-        bmiStatus = 'Underweight';
-      }
-      if(int.parse(bmi) > 18.5 && int.parse(bmi) < 24.9){
-        bmiStatus = 'Healthy Weight';
-      }
-       if(int.parse(bmi) > 25 && int.parse(bmi) < 29.9){
-        bmiStatus = 'Overweight';
-      }
-       if(int.parse(bmi) > 30){
-        bmiStatus = 'Obese';
-      }
+      var userid =  FirebaseAuth.instance.currentUser.uid;
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("bodydata").once().
+      then((DataSnapshot snapshot){
+        var value = snapshot.value;
+        weight = value["weight"].toString();
+        height = value["height"].toString();
+        bmi = value["bmi"].toString();
+        if (int.parse(bmi) < 18.5){ 
+          bmiStatus = 'Underweight';
+        }
+        if(int.parse(bmi) > 18.5 && int.parse(bmi) < 24.9){
+          bmiStatus = 'Healthy Weight';
+        }
+          if(int.parse(bmi) > 25 && int.parse(bmi) < 29.9){
+          bmiStatus = 'Overweight';
+        }
+          if(int.parse(bmi) > 30){
+          bmiStatus = 'Obese';
+        }
 
-      });  
-      
-    }
+        });
+    }     
+    
+    
   void initState() {
     super.initState();
     
@@ -198,10 +200,9 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +220,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 6),
+                                      padding: const EdgeInsets.only( top: 6),
                                       child: Text(
                                         '$bmiStatus',
                                         textAlign: TextAlign.center,
@@ -235,44 +236,6 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                                 ),
                               ],
                             ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      '$bodyfat%',
-                                      style: TextStyle(
-                                        fontFamily: FitnessAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: FitnessAppTheme.white,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'Body fat',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: FitnessAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: FitnessAppTheme.white
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
                         ],
                       ),
                     )

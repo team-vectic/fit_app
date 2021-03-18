@@ -1,14 +1,19 @@
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hexcolor/hexcolor.dart';
 class TitleView extends StatelessWidget {
   final String titleTxt;
   final String subTxt;
+  final Function subTap;
   final AnimationController animationController;
   final Animation animation;
 
+  final Shader linearGradient;
+
   const TitleView(
       {Key key,
+      this.linearGradient,
+      this.subTap,
       this.titleTxt: "",
       this.subTxt: "",
       this.animationController,
@@ -39,14 +44,17 @@ class TitleView extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                           letterSpacing: 0.5,
-                          color: FitnessAppTheme.white,
+                          foreground: Paint()..shader = linearGradient
                         ),
                       ),
                     ),
+                    subTxt != "" ?  
                     InkWell(
                       highlightColor: Colors.transparent,
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      onTap: () {},
+                      onTap: () {
+                        subTap();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Row(
@@ -59,7 +67,9 @@ class TitleView extends StatelessWidget {
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
                                 letterSpacing: 0.5,
-                                color: FitnessAppTheme.cyanText.withOpacity(0.8),
+                                foreground: Paint()..shader =  LinearGradient(
+                                colors: <Color>[HexColor("#ff4e50"), HexColor("#f9d423")],
+                                ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
                               ),
                             ),
                             SizedBox(
@@ -74,7 +84,8 @@ class TitleView extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ) 
+                    :Container()
                   ],
                 ),
               ),

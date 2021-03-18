@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:626936669727:ios:6b853e7baae4b69a82572a</string>
+	<string>1:626936669727:ios:0a261a5d5666688f82572a</string>
+	<key>DATABASE_URL</key>
+	<string>https://fitapp-af578-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

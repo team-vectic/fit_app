@@ -3,8 +3,15 @@ import 'package:fit_app/components/text_field_container.dart';
 import 'package:fit_app/constants.dart';
 
 class RoundedPasswordField extends StatelessWidget {
+  final String hintText;
+  final IconData icon;
+  bool isHidden;
+
   final ValueChanged<String> onChanged;
-  const RoundedPasswordField({
+  RoundedPasswordField({
+    this.isHidden = true,
+    this.hintText, 
+    this.icon,
     Key key,
     this.onChanged,
   }) : super(key: key);
@@ -14,11 +21,11 @@ class RoundedPasswordField extends StatelessWidget {
     return TextFieldContainer(
       child: TextField(
         style: TextStyle(color: Colors.white),
-        obscureText: true,
+        obscureText: isHidden,
         onChanged: onChanged,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
-          hintText: "Password",
+          hintText: "Password 🔑",
           hintStyle: TextStyle(color:Colors.white),
           fillColor: Colors.white,
 
@@ -26,9 +33,18 @@ class RoundedPasswordField extends StatelessWidget {
             Icons.lock,
             color: kPrimaryLightColor,
           ),
-          suffixIcon: Icon(
-            Icons.visibility,
+          suffixIcon: InkWell(
+            child:Icon(
+            isHidden ? 
+            Icons.visibility_off
+            : Icons.visibility, 
             color: kPrimaryLightColor,
+          ),
+          onTap: () {
+            isHidden = !isHidden;
+            (context as Element).markNeedsBuild();
+
+          },
           ),
           border: InputBorder.none,
         ),

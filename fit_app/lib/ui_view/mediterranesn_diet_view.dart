@@ -2,15 +2,14 @@ import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:hexcolor/hexcolor.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+
 class MediterranesnDietView extends StatefulWidget {
     final AnimationController animationController;
   final Animation animation;
-
-  MediterranesnDietView(
-      {Key key, this.animationController, this.animation})
+  final eaten, burned, kcalleft, fatleft, carbsleft, proteinleft, eatengoal, proteingoal, carbsgoal, fatgoal;  
+    MediterranesnDietView(
+      {Key key, this.animationController, this.animation, this.eaten, this.burned, 
+      this.kcalleft, this.fatleft, this.carbsleft, this.proteinleft, this.eatengoal, this.carbsgoal, this.fatgoal, this.proteingoal})
       : super(key: key);
 
   @override
@@ -18,36 +17,15 @@ class MediterranesnDietView extends StatefulWidget {
 }
 
 class _MediterranesnDietViewState extends State<MediterranesnDietView> {
-  String userid, eaten, burned, carbs, protein, fat; 
-  FirebaseAuth auth = FirebaseAuth.instance; 
-
-
-  Future<void> ReadUserToday(var today) async {
-    var firebaseUser =  FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance.collection("users").doc('$firebaseUser/$today').get().then((value){
-      burned = value.data()["burned"].toString();
-    });  
-    
-  }
-
-
     @override
     void initState() { 
       super.initState();
-      var now = new DateTime.now();
-      var formatter = new DateFormat('yyyy-MM-dd');
-      String today = formatter.format(now);
-      ReadUserToday(today);
-
-
       
     }
 
 
   @override
   Widget build(BuildContext context) {
-    final User user = auth.currentUser;
-    userid = user.uid; 
     return AnimatedBuilder(
       animation: widget.animationController,
       builder: (BuildContext context, Widget child) {
@@ -140,7 +118,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '$burned',
+                                                    '${widget.eaten}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -238,7 +216,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(102 * widget.animation.value).toInt()}',
+                                                    '${widget.burned}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -285,10 +263,9 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(right: 16),
+                            padding: const EdgeInsets.only(right: 12),
                             child: Center(
                               child: Stack(
-                                overflow: Overflow.visible,
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -313,7 +290,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            '${(1503 * widget.animation.value).toInt()}',
+                                            '${widget.kcalleft}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily:
@@ -342,18 +319,18 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                       ),
                                     ),
                                   ),
+                                  
                                   Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
                                           colors: [
                                             FitnessAppTheme.nearlyDarkBlue,
-                                            HexColor("#8A98E8"),
+                                            HexColor("#7585e4 "),
                                             HexColor("#8A98E8")
                                           ],
-                                          angle: 140 +
-                                              (360 - 140) *
-                                                  (1.0 - widget.animation.value)),
+                                          angle: widget.eatengoal - widget.eaten >= 0 ? (widget.eaten / widget.eatengoal) *347 * widget.animation.value : 347 * widget.animation.value
+                                      ),
                                       child: SizedBox(
                                         width: 108,
                                         height: 108,
@@ -413,7 +390,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                     child: Row(
                                       children: <Widget>[
                                         Container(
-                                          width: ((70 / 1.2) * widget.animation.value),
+                                          width:  widget.carbsleft >= 0 ? (((widget.carbsgoal - widget.carbsleft) / widget.carbsgoal) * 70 * widget.animation.value) : 70,
                                           height: 4,
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
@@ -432,7 +409,9 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 6),
                                   child: Text(
-                                    '12g left',
+                                    widget.carbsleft >= 0 ? 
+                                    '${widget.carbsleft} g left' : 
+                                    'over by ${int.parse(widget.carbsleft.toString()).abs()}',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
@@ -480,8 +459,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                         child: Row(
                                           children: <Widget>[
                                             Container(
-                                              width: ((70 / 2) *
-                                                  widget.animationController.value),
+                                              width: widget.proteinleft >= 0 ? (((widget.proteingoal - widget.proteinleft) / widget.proteingoal) * 70 * widget.animation.value) : 70,
                                               height: 4,
                                               decoration: BoxDecoration(
                                                 gradient:
@@ -501,7 +479,9 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 6),
                                       child: Text(
-                                        '30g left',
+                                        widget.proteinleft >= 0 ? 
+                                        '${widget.proteinleft} g left' : 
+                                        'over by ${int.parse(widget.proteinleft.toString()).abs()}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -550,8 +530,7 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                         child: Row(
                                           children: <Widget>[
                                             Container(
-                                              width: ((70 / 2.5) *
-                                                  widget.animationController.value),
+                                              width:  widget.fatleft >= 0 ? (((widget.fatgoal - widget.fatleft) / widget.fatgoal) * 70 * widget.animation.value) : 70,
                                               height: 4,
                                               decoration: BoxDecoration(
                                                 gradient:
@@ -571,7 +550,9 @@ class _MediterranesnDietViewState extends State<MediterranesnDietView> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 6),
                                       child: Text(
-                                        '10g left',
+                                        widget.fatleft >= 0 ? 
+                                        '${widget.fatleft} g left' : 
+                                        'over by ${int.parse(widget.fatleft.toString()).abs()}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -609,7 +590,7 @@ class CurvePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    List<Color> colorsList = List<Color>();
+    List<Color> colorsList = [];
     if (colors != null) {
       colorsList = colors;
     } else {

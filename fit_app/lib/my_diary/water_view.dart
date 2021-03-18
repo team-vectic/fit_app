@@ -1,35 +1,92 @@
+
+import 'dart:io';
+
 import 'package:fit_app/ui_view/wave_view.dart';
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 class WaterView extends StatefulWidget {
 
   const WaterView(
-      {Key key, this.mainScreenAnimationController, this.mainScreenAnimation})
+      {Key key, this.mainScreenAnimationController,this.linearGradient, this.mainScreenAnimation})
       : super(key: key);
 
   final AnimationController mainScreenAnimationController;
   final Animation<dynamic> mainScreenAnimation;
+  final LinearGradient linearGradient;
   @override
   _WaterViewState createState() => _WaterViewState();
 }
 
 class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
-    var watergoal;
+  var watergoal, watersofar, lastdrink;
+  final String defaultLocale = Platform.localeName;
+  void updateWater(var action, var userid){
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String today = formatter.format(now);
+
+      if(action == "+" && watersofar >= 0){
+        setState(() {
+          watersofar += 100; 
+          FirebaseDatabase.instance.reference().child('users').child("$userid").child("food").
+          child("$today").child("eaten").update({
+            "watersofar" : watersofar,
+            "lastdrink": DateFormat('hh:mm a', defaultLocale).format(DateTime.now())
+          });
+          getFirebaseData();
+
+        });
+      }
+      if(action == "-" && watersofar > 0){
+        setState(() {
+          watersofar -= 100; 
+          FirebaseDatabase.instance.reference().child('users').child("$userid").child("food").
+          child("$today").child("eaten").update({
+            "watersofar" : watersofar
+          });
+          getFirebaseData();
+
+        });
+      }
+  }
+
 
   void getFirebaseData()
   {
-    var firebaseUser =  FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance.collection("bodydata").doc(firebaseUser.uid).get().then((value){
-      watergoal = value.data()["watergoal"].toString();
-    });  
-    
+      var userid =  FirebaseAuth.instance.currentUser.uid;
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String today = formatter.format(now);
+
+
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("bodydata").once().
+      then((DataSnapshot snapshot){
+      var value = snapshot.value;
+      if(value != null)
+      {
+        watergoal = value['watergoal'];
+      }
+      });
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten").once().
+      then((DataSnapshot snapshot){
+      var value = snapshot.value;
+      if(value != null)
+      {
+        watersofar = value['watersofar'];
+        lastdrink = value['lastdrink'];
+      }
+      });
   }
 
   @override
   void initState() { 
     super.initState();
+    getFirebaseData();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => getFirebaseData());
   }
@@ -89,7 +146,7 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                       padding: const EdgeInsets.only(
                                           left: 4, bottom: 3),
                                       child: Text(
-                                        '2100',
+                                        '$watersofar',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
@@ -168,7 +225,8 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                         padding:
                                             const EdgeInsets.only(left: 4.0),
                                         child: Text(
-                                          'Last drink 8:26 AM',
+                                          lastdrink != 0 ? 
+                                          'Last drink $lastdrink' : "You Didn't Drinked Yet",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily:
@@ -183,35 +241,8 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 24,
-                                          height: 24,
-                                          child: Image.asset(
-                                              'lib/assets/fitness_app/bell.png'),
-                                        ),
-                                        Flexible(
-                                          child: Text(
-                                            'Your bottle is empty, refill it!.',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontFamily:
-                                                  FitnessAppTheme.fontName,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                              letterSpacing: 0.0,
-                                              color: Color.fromRGBO(246, 82	,131, 1),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    padding: const EdgeInsets.only(top: 26),
+                                    
                                   ),
                                 ],
                               ),
@@ -239,11 +270,14 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
-                                child: Icon(
+                                child: InkWell(
+                                  onTap: (){updateWater("+", FirebaseAuth.instance.currentUser.uid);},
+                                  child: Icon(
                                   Icons.add,
                                   color: FitnessAppTheme.nearlyDarkBlue,
                                   size: 24,
                                 ),
+                                )
                               ),
                             ),
                             const SizedBox(
@@ -263,11 +297,14 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
-                                child: Icon(
+                                child: InkWell(
+                                  onTap: (){updateWater("-", FirebaseAuth.instance.currentUser.uid);},
+                                  child: Icon(
                                   Icons.remove,
                                   color: FitnessAppTheme.nearlyDarkBlue,
                                   size: 24,
                                 ),
+                                )
                               ),
                             ),
                           ],
@@ -294,7 +331,8 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
                             ],
                           ),
                           child: WaveView(
-                            percentageValue: 70.0,
+                            percentageValue: watersofar != null ? ((watersofar / 1000) / watergoal) * 100 : 0,
+                            linearGradient: widget.linearGradient,
                           ),
                         ),
                       )

@@ -8,20 +8,20 @@ users ->
 		email:
 		password:
 		date ->
-			burned-
+			drinken- 0
+			burned- STEPS CALCULATION
 			eaten->
 				carbs
 				protein 
 				fat
+				cal - breakfast(1000) + lunch(1000) + dinner(1000) + snacks(1000)
 				watersofar
 				lastdrink- 
-				breakfast
-				lunch->
-
-				snacks->
-
-				dinner->
-
+				
+				breakfast - Banana , Apple , Bread; 1000
+				lunch - Shnitzel , Rice , Chicken; 1000
+				dinner - Bread , Butter , Sausage; 1000
+				snacks - Banana , Ice Cream , Cookie; 1000
 
 
 

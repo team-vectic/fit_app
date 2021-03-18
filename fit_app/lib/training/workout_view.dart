@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../fitness_app_theme.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -21,13 +22,10 @@ class WorkoutView extends StatelessWidget {
                 0.0, 30 * (1.0 - animation.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
+                  left: 24, right: 24, top: 16, bottom: 23),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    FitnessAppTheme.darkBackground,
-                    HexColor("#262626").withOpacity(0.9)
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                  color: FitnessAppTheme.nearlyDark,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -35,7 +33,7 @@ class WorkoutView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.6),
+                        color: FitnessAppTheme.grey.withOpacity(0.2),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -46,97 +44,215 @@ class WorkoutView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        'Next workout',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: FitnessAppTheme.fontName,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          letterSpacing: 0.0,
-                          color: FitnessAppTheme.white,
-                        ),
-                      ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'JUST GET OUT THERE AND MOVE UR BUTT',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: FitnessAppTheme.fontName,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            letterSpacing: 0.0,
-                            color: FitnessAppTheme.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 32,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      padding: const EdgeInsets.all(15),
+                      child: Center(
+                        child: Stack(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Icon(
-                                Icons.timer,
-                                color: FitnessAppTheme.white,
-                                size: 16,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4.0),
-                              child: Text(
-                                '68 min',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FitnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  letterSpacing: 0.0,
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
                                   color: FitnessAppTheme.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(100.0),
+                                  ),
+                                  border: new Border.all(
+                                      width: 4,
+                                      color: FitnessAppTheme
+                                          .nearlyDarkBlue
+                                          .withOpacity(0.2)),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                  ],
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: FitnessAppTheme.nearlyWhite,
-                                shape: BoxShape.circle,
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: FitnessAppTheme.nearlyBlack
-                                          .withOpacity(0.4),
-                                      offset: Offset(8.0, 8.0),
-                                      blurRadius: 8.0),
-                                ],
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: CustomPaint(
+                                painter: CurvePainter(
+                                    colors: [
+                                      
+                                      HexColor("#439775"),
+                                      HexColor("#439775")
+                                    ],
+                                    angle: 100 * animation.value
+                                ),
+                                child: SizedBox(
+                                  width: 208,
+                                  height: 208,
+                                ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Icon(
-                                  Icons.arrow_right,
-                                  color: HexColor("#6F56E8"),
-                                  size: 44,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(38.0),
+                              child: CustomPaint(
+                                painter: CurvePainter(
+                                    colors: [
+                                      HexColor("#48BF84"),
+                                      HexColor("#48BF84")
+                                    ],
+                                    angle: 340 * animation.value
+                                ),
+                                child: SizedBox(
+                                  width: 140,
+                                  height: 140,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(72.0),
+                              child: CustomPaint(
+                                painter: CurvePainter(
+                                    colors: [
+                                      HexColor("#8A98E8"),
+                                      HexColor("#8A98E8")
+                                    ],
+                                    angle: 300 * animation.value
+                                ),
+                                child: SizedBox(
+                                  width: 72,
+                                  height: 72,
                                 ),
                               ),
                             )
                           ],
                         ),
-                      )
+                      ),
+                    ),     
                     ],
+                        ),
+                      )
                   ),
                 ),
               ),
-            ),
-          ),
         );
       },
     );
   }
 }
+
+class CurvePainter extends CustomPainter {
+  final double angle;
+  final List<Color> colors;
+
+  CurvePainter({this.colors, this.angle = 140});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    List<Color> colorsList = [];
+    if (colors != null) {
+      colorsList = colors;
+    } else {
+      colorsList.addAll([Colors.white, Colors.white]);
+    }
+
+    final shdowPaint = new Paint()
+      ..color = Colors.black.withOpacity(0.4)
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 14;
+    final shdowPaintCenter = new Offset(size.width / 2, size.height / 2);
+    final shdowPaintRadius =
+        math.min(size.width / 2, size.height / 2) - (14 / 2);
+    canvas.drawArc(
+        new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
+        degreeToRadians(278),
+        degreeToRadians(360 - (365 - angle)),
+        false,
+        shdowPaint);
+
+    shdowPaint.color = Colors.grey.withOpacity(0.3);
+    shdowPaint.strokeWidth = 16;
+    canvas.drawArc(
+        new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
+        degreeToRadians(278),
+        degreeToRadians(360 - (365 - angle)),
+        false,
+        shdowPaint);
+
+    shdowPaint.color = Colors.grey.withOpacity(0.2);
+    shdowPaint.strokeWidth = 20;
+    canvas.drawArc(
+        new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
+        degreeToRadians(278),
+        degreeToRadians(360 - (365 - angle)),
+        false,
+        shdowPaint);
+
+    shdowPaint.color = Colors.grey.withOpacity(0.1);
+    shdowPaint.strokeWidth = 22;
+    canvas.drawArc(
+        new Rect.fromCircle(center: shdowPaintCenter, radius: shdowPaintRadius),
+        degreeToRadians(278),
+        degreeToRadians(360 - (365 - angle)),
+        false,
+        shdowPaint);
+
+    final rect = new Rect.fromLTWH(0.0, 0.0, size.width, size.width);
+    final gradient = new SweepGradient(
+      startAngle: degreeToRadians(268),
+      endAngle: degreeToRadians(270.0 + 360),
+      tileMode: TileMode.repeated,
+      colors: colorsList,
+    );
+    final paint = new Paint()
+      ..shader = gradient.createShader(rect)
+      ..strokeCap = StrokeCap.round // StrokeCap.round is not recommended.
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 14;
+    final center = new Offset(size.width / 2, size.height / 2);
+    final radius = math.min(size.width / 2, size.height / 2) - (14 / 2);
+
+    canvas.drawArc(
+        new Rect.fromCircle(center: center, radius: radius),
+        degreeToRadians(278),
+        degreeToRadians(360 - (365 - angle)),
+        false,
+        paint);
+
+    final gradient1 = new SweepGradient(
+      tileMode: TileMode.repeated,
+      colors: [Colors.white, Colors.white],
+    );
+
+    var cPaint = new Paint();
+    cPaint..shader = gradient1.createShader(rect);
+    cPaint..color = Colors.white;
+    cPaint..strokeWidth = 14 / 2;
+    canvas.save();
+
+    final centerToCircle = size.width / 2;
+    canvas.save();
+
+    canvas.translate(centerToCircle, centerToCircle);
+    canvas.rotate(degreeToRadians(angle + 2));
+
+    canvas.save();
+    canvas.translate(0.0, -centerToCircle + 14 / 2);
+    canvas.drawCircle(new Offset(0, 0), 14 / 5, cPaint);
+
+    canvas.restore();
+    canvas.restore();
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+
+  double degreeToRadians(double degree) {
+    var redian = (math.pi / 180) * degree;
+    return redian;
+  }
+}
+

@@ -1,4 +1,3 @@
-import 'package:fit_app/constants.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
@@ -12,29 +11,20 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height,
-      color: kDarkBackground,
       width: double.infinity,
-      // Here i can use size.width but use double.infinity because both work as a same
+      height: size.height,
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset(
-              "lib/assets/images/signup_top.png",
-              width: size.width * 0.35,
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fitness_app/bg.png"),
+              fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Image.asset(
-              "lib/assets/images/main_bottom.png",
-              width: size.width * 0.25,
-            ),
-          ),
+        ),
           child,
         ],
       ),

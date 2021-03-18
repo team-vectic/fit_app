@@ -2,7 +2,9 @@ import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/models/meals_list_data.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 
 class MealsListView extends StatefulWidget {
   const MealsListView(
@@ -18,13 +20,144 @@ class MealsListView extends StatefulWidget {
 
 class _MealsListViewState extends State<MealsListView>
     with TickerProviderStateMixin {
-  AnimationController animationController;
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
+      List<String> breakfast, launch, dinner, snacks; 
 
+  void getMealList(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String today = formatter.format(now);
+    var userid = FirebaseAuth.instance.currentUser.uid;
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten").child("breakfast").once().
+      then((DataSnapshot snapshot){
+      var value = snapshot.value;
+      if(value != null)
+      {
+        breakfast = value["data"].split(",");
+        var kcal = breakfast.last;
+        var intKcal;  
+        try {
+        intKcal = int.parse(kcal);
+        } on FormatException {
+        }
+        breakfast.removeLast();
+        if (breakfast.length != 0)
+        {
+          mealsListData.add(
+          MealsListData(
+              imagePath: 'lib/assets/fitness_app/breakfast.png',
+              titleTxt: 'Breakfast',
+              kacl: intKcal,
+              meals: breakfast,
+              startColor: '#FA7D82',
+              endColor: '#FFB295',
+            ),
+          );
+
+        }
+      }
+      });
+      if(FirebaseAuth.instance.currentUser != null){
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten").child("launch").once().
+      then((DataSnapshot snapshot){
+      var value = snapshot.value;
+      if(value != null)
+      {
+        launch = value["data"].split(",");    
+        var kcal = launch.last;
+        var intKcal; 
+        try {
+        intKcal = int.parse(kcal);
+        } on FormatException {
+        }
+        launch.removeLast();
+        if(launch.length != 0){
+        mealsListData.add(
+          MealsListData(
+            imagePath: 'lib/assets/fitness_app/lunch.png',
+            titleTxt: 'Lunch',
+            kacl: intKcal,
+            meals: launch,
+            startColor: '#738AE6',
+            endColor: '#5C5EDD',
+          ),
+        );
+        }
+        }
+      });
+    
+    }
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+            child("food").child("$today").child("eaten").child("dinner").once().
+            then((DataSnapshot snapshot){
+            var value = snapshot.value;
+            if(value != null)
+            {
+
+              dinner = value["data"].split(",");
+              var kcal = dinner.last;
+              var intKcal; 
+
+              dinner.removeLast();
+              try {
+              intKcal = int.parse(kcal);
+              } on FormatException {
+              }
+              if(dinner.length != 0){
+              mealsListData.add(
+                MealsListData(
+                  imagePath: 'lib/assets/fitness_app/dinner.png',
+                  titleTxt: 'Dinner',
+                  kacl: intKcal,
+                  meals: dinner,
+                  startColor: '#6F72CA',
+                  endColor: '#1E1466',
+                ),
+              );
+              }
+            }
+
+      });
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten").child("snacks").once().
+      then((DataSnapshot snapshot){
+      var value = snapshot.value;
+      if(value != null)
+      {
+        snacks = value["data"].split(",");
+        var kcal = snacks.last;
+        var intKcal; 
+        snacks.removeLast();
+        try {
+        intKcal = int.parse(kcal);
+        } on FormatException {
+        }
+        if(snacks.length != 0){
+        mealsListData.add(
+          MealsListData(
+            imagePath: 'lib/assets/fitness_app/snack.png',
+            titleTxt: 'Snacks',
+            kacl: intKcal,
+            meals: snacks,
+            startColor: '#FE95B6',
+            endColor: '#FF5287',
+          ),
+        );
+        }
+      }
+      });
+
+  }
+
+  AnimationController animationController;
+  List<MealsListData> mealsListData = [];
+  
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
+    getMealList();
     super.initState();
   }
 
@@ -52,7 +185,8 @@ class _MealsListViewState extends State<MealsListView>
             child: Container(
               height: 216,
               width: double.infinity,
-              child: ListView.builder(
+              child: mealsListData.length != 0 ? 
+              ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: mealsListData.length,
@@ -68,15 +202,87 @@ class _MealsListViewState extends State<MealsListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController.forward();
 
+
                   return MealsView(
                     mealsListData: mealsListData[index],
                     animation: animation,
                     animationController: animationController,
                   );
                 },
+              ) :              
+               SizedBox(
+              width: 130,
+              child: Stack(
+                children: <Widget>[
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "🤔",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: FitnessAppTheme.fontName,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 66,
+                                letterSpacing: 0.2,
+                                color: FitnessAppTheme.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: 
+                                    Text(
+                                      "Pretty lonely here... Maybe eat something?",
+                                      style: TextStyle(
+                                        fontFamily: FitnessAppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        letterSpacing: 0.1,
+                                        color: FitnessAppTheme.white,
+                                      ),
+                                    )
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      width: 84,
+                      height: 84,
+                      decoration: BoxDecoration(
+                        color: FitnessAppTheme.nearlyDark.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 5,
+                    child: SizedBox(
+                      width: 80,
+                      height: 80,
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
+            )
+          )
+            
         );
       },
     );
@@ -92,6 +298,7 @@ class MealsView extends StatelessWidget {
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -102,7 +309,7 @@ class MealsView extends StatelessWidget {
           child: Transform(
             transform: Matrix4.translationValues(
                 100 * (1.0 - animation.value), 0.0, 0.0),
-            child: SizedBox(
+            child: mealsListData.kacl != null ? SizedBox(
               width: 130,
               child: Stack(
                 children: <Widget>[
@@ -159,16 +366,21 @@ class MealsView extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: mealsListData.meals != null ? 
                                     Text(
-                                      mealsListData.meals.join('\n'),
+                                      mealsListData.meals.join("\n"),
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10,
-                                        letterSpacing: 0.2,
+                                        fontSize: 12,
+                                        letterSpacing: 0.1,
                                         color: FitnessAppTheme.white,
                                       ),
-                                    ),
+                                    ) : 
+                                    Text("")
+                                    )
                                   ],
                                 ),
                               ),
@@ -255,7 +467,8 @@ class MealsView extends StatelessWidget {
                   )
                 ],
               ),
-            ),
+            ) : 
+            Container()
           ),
         );
       },

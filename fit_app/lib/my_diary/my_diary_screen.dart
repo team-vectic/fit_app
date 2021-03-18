@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:fit_app/fitness_app_home_screen.dart';
 import 'package:fit_app/ui_view/body_measurement.dart';
 import 'package:fit_app/ui_view/glass_view.dart';
 import 'package:fit_app/ui_view/mediterranesn_diet_view.dart';
@@ -6,7 +8,10 @@ import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/my_diary/meals_list_view.dart';
 import 'package:fit_app/my_diary/water_view.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_database/firebase_database.dart';
 class MyDiaryScreen extends StatefulWidget {
   const MyDiaryScreen({Key key, this.animationController}) : super(key: key);
 
@@ -15,45 +20,203 @@ class MyDiaryScreen extends StatefulWidget {
   _MyDiaryScreenState createState() => _MyDiaryScreenState();
 }
 
-class _MyDiaryScreenState extends State<MyDiaryScreen>
-    with TickerProviderStateMixin {
+class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+  Shader shaderLinearGradient;
+  LinearGradient linearGradient;  
+  List<LinearGradient> shaders = [
+      LinearGradient(
+      colors: <Color>[HexColor("#8E0E00"), HexColor("#b84f8b")],
+      ),
+      LinearGradient(
+      colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#f46b45"), HexColor("#eea849")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#005C97"), HexColor("#363795")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#e53935"), HexColor("#e35d5b")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#2c3e50"), HexColor("#3498db")],
+      )
 
+
+  ];
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  var userid, eaten, burned, carbs, protein, fat, carbsgoal, fatgoal, proteingoal, caloriegoal; 
+  String todayMonth, todayDay; 
+  var kcalleft, fatleft, carbsleft, proteinleft, angle;
+  FirebaseAuth auth = FirebaseAuth.instance; 
 
-  @override
-  void initState() {
-    topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: widget.animationController,
-            curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
+  String returnMonth(month){
+    switch (month) {
+        case 1:
+          month = "January";
+          break;
+        case 2:
+          return "February";
+          
+        case 3:
+          return "March";
 
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
-        if (topBarOpacity != 1.0) {
-          setState(() {
-            topBarOpacity = 1.0;
-          });
-        }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
-          setState(() {
-            topBarOpacity = scrollController.offset / 24;
-          });
-        }
-      } else if (scrollController.offset <= 0) {
-        if (topBarOpacity != 0.0) {
-          setState(() {
-            topBarOpacity = 0.0;
-          });
-        }
+        case 4:
+          return "April";
+        case 5:
+          return "May";
+        case 6:
+          return "June";
+        case 7:
+          return "July";
+        case 8:
+          return "August";
+        case 9:
+          return "September";
+        case 10:
+          return "October";
+        case 11:
+          return "November";
+        case 12:
+          return "december";
       }
-    });
+  }  
+  @override   
+  void initState() {
+          Random random = new Random();
+          int randomNumber = random.nextInt(5) + 1; 
+          print(randomNumber);
+          shaderLinearGradient = shaders[randomNumber-1].createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+          linearGradient = shaders[randomNumber-1];
+          topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+              parent: widget.animationController,
+              curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
+          scrollController.addListener(() {
+            if (scrollController.offset >= 24) {
+              if (topBarOpacity != 1.0) {
+                setState(() {
+                  topBarOpacity = 1.0;
+                });
+              }
+            } else if (scrollController.offset <= 24 &&
+                scrollController.offset >= 0) {
+              if (topBarOpacity != scrollController.offset / 24) {
+                setState(() {
+                  topBarOpacity = scrollController.offset / 24;
+                });
+              }
+            } else if (scrollController.offset <= 0) {
+              if (topBarOpacity != 0.0) {
+                setState(() {
+                  topBarOpacity = 0.0;
+                });
+              }
+            }
+          });
+
+
+
+
+
+      var now = new DateTime.now();
+      var formatter = new DateFormat('yyyy-MM-dd');
+      String today = formatter.format(now);
+      todayMonth = returnMonth(now.month);
+      todayDay = now.day.toString();
+      var userid =  FirebaseAuth.instance.currentUser.uid;
+      print("user id - $userid - today - $today");
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten").once().
+      then((DataSnapshot snapshot){
+        var value = snapshot.value;
+        if(value != null)
+        {
+          eaten = value["eaten"];
+          fat = value["fat"];
+          protein = value["protein"];
+          carbs = value["carbs"];
+        }
+      });
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("burned").once().
+      then((DataSnapshot snapshot){
+        var value = snapshot.value;
+        if(value != null)
+        {
+          burned = value["burned"];
+        }
+      });
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("bodydata").once().
+      then((DataSnapshot snapshot){
+        var value = snapshot.value;
+        if(value != null)
+        {
+          caloriegoal = value["caloriegoal"];
+          carbsgoal = value["carbsgoal"];
+          fatgoal = value["fatgoal"];
+          proteingoal = value["proteingoal"];
+          kcalleft = caloriegoal - eaten;
+          carbsleft = carbsgoal - carbs;
+          fatleft = fatgoal - fat;
+          proteinleft = proteingoal - protein;
+          
+          setState(() {
+              addAllListData();
+
+          });
+        }
+      });
+
+
+
     super.initState();
+  }
+
+  void resetTodayData(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String today = formatter.format(now);
+    userid =  FirebaseAuth.instance.currentUser.uid;
+
+    FirebaseDatabase.instance.reference().child('users').child("$userid").
+    child("food").child("$today").child("eaten").child("breakfast")      
+    .set({
+      "data":""
+    })
+    .catchError((error) => print("Failed to add user: $error"));
+    FirebaseDatabase.instance.reference().child('users').child("$userid").
+    child("food").child("$today").child("eaten").child("launch")      
+    .set({
+      "data":""
+    })
+    .catchError((error) => print("Failed to add user: $error"));
+    FirebaseDatabase.instance.reference().child('users').child("$userid").
+    child("food").child("$today").child("eaten").child("dinner")      
+    .set({
+      "data":""
+    })
+    .catchError((error) => print("Failed to add user: $error"));
+    FirebaseDatabase.instance.reference().child('users').child("$userid").
+    child("food").child("$today").child("eaten").child("snacks")      
+    .set({
+      "data":""
+    })
+    .catchError((error) => print("Failed to add user: $error"));
+
+    runApp(
+      new MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: new FitnessAppHomeScreen(),
+    ));
+
+
   }
 
   void addAllListData() {
@@ -61,7 +224,9 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
 
     listViews.add(
       TitleView(
-        titleTxt: 'Mediterranean diet',
+        linearGradient: 
+        shaderLinearGradient,
+        titleTxt: 'Overview',
         subTxt: 'Details',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
@@ -70,19 +235,46 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         animationController: widget.animationController,
       ),
     );
+
+    if(carbs == 0){
+      carbsleft = carbsgoal;
+    }
+    if(protein == 0){
+      proteinleft = proteingoal;
+      
+    }
+    if(fat == 0){
+      fatleft = fatgoal;
+    }
+
     listViews.add(
       MediterranesnDietView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
                 Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
+        animationController: widget.animationController, 
+        eaten: eaten, 
+        burned: burned, 
+        kcalleft: kcalleft, 
+        carbsleft: carbsleft, 
+        proteinleft: proteinleft, 
+        fatleft: fatleft,
+        eatengoal: caloriegoal, 
+        carbsgoal: carbsgoal,
+        proteingoal: proteingoal,
+        fatgoal: fatgoal,
       ),
     );
     listViews.add(
       TitleView(
         titleTxt: 'Meals today',
-        subTxt: 'Customize',
+        subTxt: 'Reset',
+        linearGradient: 
+        shaderLinearGradient,
+        subTap: () {
+          resetTodayData();
+        },
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -104,8 +296,9 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
 
     listViews.add(
       TitleView(
+        linearGradient: 
+        shaderLinearGradient,
         titleTxt: 'Body measurement',
-        subTxt: 'Today',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -125,6 +318,8 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     );
     listViews.add(
       TitleView(
+        linearGradient: 
+        shaderLinearGradient,
         titleTxt: 'Water',
         subTxt: 'More about drinking times',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -143,6 +338,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                 curve: Interval((1 / count) * 7, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
+        linearGradient: linearGradient
       ),
     );
     listViews.add(
@@ -294,7 +490,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     ),
                                   ),
                                   Text(
-                                    '15 May',
+                                    '$todayDay $todayMonth',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,

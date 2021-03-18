@@ -18,22 +18,15 @@ class Background extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset(
-              "lib/assets/images/main_top.png",
-              width: size.width * 0.3,
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("lib/assets/fitness_app/bg.png"),
+              fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Image.asset(
-              "lib/assets/images/main_bottom.png",
-              width: size.width * 0.2,
-            ),
-          ),
+        ),
           child,
         ],
       ),

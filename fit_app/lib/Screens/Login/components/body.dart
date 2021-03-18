@@ -1,3 +1,5 @@
+import 'package:fit_app/Screens/Signup/components/or_divider.dart';
+import 'package:fit_app/fitness_app_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_app/Screens/Login/components/background.dart';
 import 'package:fit_app/Screens/Signup/signup_screen.dart';
@@ -6,7 +8,6 @@ import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/components/rounded_input_field.dart';
 import 'package:fit_app/components/rounded_password_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_app/fitness_app_home_screen.dart';
 class Body extends StatelessWidget {
   const Body({
     Key key,
@@ -20,7 +21,7 @@ class Body extends StatelessWidget {
 
     Future<void> signIn(exemail, expassword) async {
         try {
-          UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: exemail,
           password: expassword
           );
@@ -54,10 +55,13 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Your Email",
+              icon: Icons.mail,
+              hintText: "Email 📬",
               onChanged: (value) {email=value;},
             ),
             RoundedPasswordField(
+              icon: Icons.lock,
+              hintText: "Password 🔑",
               onChanged: (value) {password=value;},
             ),
             RoundedButton(
@@ -65,6 +69,7 @@ class Body extends StatelessWidget {
               press: () {signIn(email, password);},
             ),
             SizedBox(height: size.height * 0.03),
+            OrDivider(),
             AlreadyHaveAnAccountCheck(
               press: () {
                 Navigator.push(

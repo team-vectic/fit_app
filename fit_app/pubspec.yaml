@@ -1,5 +1,5 @@
 name: fit_app
-description: A new Flutter project.
+description: fitness and nutrition app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -21,13 +21,18 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  cloud_firestore: "^0.16.0"
-  flutter_emoji: ">= 2.0.0"
+  fit_kit: ^1.1.2
   hexcolor: ^1.0.6
   intl: ^0.16.1
-  http: ^0.12.2
+  rive: ^0.6.8
   provider: ^4.3.3
-
+  dio: ^3.0.10
+  cached_network_image: ^2.5.1
+  url_launcher: ^5.7.10
+  flutter_svg: ^0.19.3
+  shared_preferences: ^0.5.7+3
+  avataar_generator: ^1.1.1
+  curved_navigation_bar: ^0.3.7 
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
@@ -36,14 +41,20 @@ dependencies:
 
 dependency_overrides:
   firebase_core: "^0.7.0"
-  cloud_firestore: "^0.16.0"
   firebase_auth: "^0.20.0+1"
-
+  firebase_database: "6.0.0"
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.1"
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/launcher/ic_launcher.png"
+  adaptive_icon_background: "lib/assets/launcher/ic_launcher_background.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "lib/assets/launcher/ic_launcher_foreground.png" # only available for Android 8.0 devices and above
+  # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
@@ -59,7 +70,7 @@ flutter:
      - lib/assets/fitness_app/
      - lib/assets/icons/
      - lib/assets/images/
-     - lib/assets/food.json
+     - lib/assets/launcher/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

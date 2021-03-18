@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fit_app/Screens/Login/login_screen.dart';
 import 'package:fit_app/Screens/Signup/signup_screen.dart';
-import 'package:fit_app/fitness_app_home_screen.dart';
 import 'package:fit_app/Screens/Welcome/components/background.dart';
 import 'package:fit_app/components/rounded_button.dart';
 import 'package:fit_app/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "WELCOME TO FIT-APP",
+              "Meet fitapp",
               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             SizedBox(height: size.height * 0.05),

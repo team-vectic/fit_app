@@ -11,10 +11,10 @@ class TrainingScreen extends StatefulWidget {
 
   final AnimationController animationController;
   @override
-  _TrainingScreenState createState() => _TrainingScreenState();
+  TrainingScreenState createState() => TrainingScreenState();
 }
 
-class _TrainingScreenState extends State<TrainingScreen>
+class TrainingScreenState extends State<TrainingScreen>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
 

@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:fit_app/models/tabIcon_data.dart';
-import 'package:fit_app/ui_view/add_food.dart';
 import 'package:flutter/material.dart';
 
 import '../models/tabIcon_data.dart';
@@ -166,11 +165,13 @@ class _BottomBarViewState extends State<BottomBarView>
                           onTap: () {
                               widget.changeIndex(4);
                           },
-                          child: Icon(
-                            Icons.add,
-                            color: FitnessAppTheme.white,
-                            size: 32,
-                          ),
+                          child:TabIcons(
+                                  tabIconData: widget.tabIconsList[4],
+                                  removeAllSelect: () {
+                                    setRemoveAllSelection(
+                                        widget.tabIconsList[4]);
+                                    widget.changeIndex(4);
+                                  }),
                         ),
                       ),
                     ),

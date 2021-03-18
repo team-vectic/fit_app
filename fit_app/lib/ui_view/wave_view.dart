@@ -2,23 +2,23 @@ import 'dart:math' as math;
 import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vector;
-
 class WaveView extends StatefulWidget {
   final double percentageValue;
+  final LinearGradient linearGradient;
 
-  const WaveView({Key key, this.percentageValue = 100.0}) : super(key: key);
+  const WaveView({Key key, this.percentageValue = 100.0, this.linearGradient}) : super(key: key);
   @override
   _WaveViewState createState() => _WaveViewState();
 }
 
 class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
+
   AnimationController animationController;
   AnimationController waveAnimationController;
   Offset bottleOffset1 = Offset(0, 0);
   List<Offset> animList1 = [];
   Offset bottleOffset2 = Offset(60, 0);
   List<Offset> animList2 = [];
-
   @override
   void initState() {
     animationController = AnimationController(
@@ -108,15 +108,7 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
             new ClipPath(
               child: new Container(
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.nearlyDarkBlue,
-                  gradient: LinearGradient(
-                    colors: [
-                      FitnessAppTheme.nearlyDarkBlue.withOpacity(0.4),
-                      FitnessAppTheme.nearlyDarkBlue
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: widget.linearGradient,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(80.0),
                       bottomLeft: Radius.circular(80.0),
