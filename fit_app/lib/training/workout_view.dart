@@ -2,24 +2,108 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../fitness_app_theme.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-class WorkoutView extends StatelessWidget {
+import 'package:fit_kit/fit_kit.dart';
+import 'package:intl/intl.dart';
+class WorkoutView extends StatefulWidget {
   final AnimationController animationController;
   final Animation animation;
 
   const WorkoutView({Key key, this.animationController, this.animation})
       : super(key: key);
 
+
+  @override
+  _WorkoutViewState createState() => _WorkoutViewState();
+}
+
+class _WorkoutViewState extends State<WorkoutView> {
+  var data, type; 
+  Widget _widget;
+
+void read() async {
+      DateTime current = DateTime.now();
+      DateTime dateFrom;
+      DateTime dateTo;
+      dateFrom = current.subtract(Duration(
+        hours: current.hour,
+        minutes: current.minute,
+        seconds: current.second,
+      ));
+      dateTo = DateTime.now();
+  try {
+    final results = await FitKit.read(
+      DataType.DISTANCE,
+      dateFrom: dateFrom,
+      dateTo: dateTo
+    );
+
+    addWidget(type, results);
+  } on UnsupportedException catch (e) {
+    // thrown in case e.dataType is unsupported
+  }
+}
+    static List<T> map<T>({@required List list, @required Function handler}) {
+    List<T> result = [];
+
+    int lengthToDisplay =
+        list.length;
+
+    if (list.length > 0) {
+      for (var i = 0; i < lengthToDisplay; i++) {
+        result.add(handler(i, list[i]));
+      }
+    }
+
+    return result;
+  }
+
+void addWidget(DataType type, List<FitData> data) {
+    int total = 0;
+
+    for (FitData datasw in data) {
+      total += datasw.value.toInt();
+    }
+    print("-------------------------- $total");
+
+    Widget widget = Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text('$total meters', style: TextStyle(fontSize: 30, color: Colors.white))
+                ],
+              ),
+            ),
+          ]
+        ));
+    setState(() {
+      _widget = widget;
+    });
+}
+  
+  @override
+  void initState() {
+    super.initState();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
+    read();
+
     return AnimatedBuilder(
-      animation: animationController,
+      animation: widget.animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
-          opacity: animation,
+          opacity: widget.animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
+                0.0, 30 * (1.0 - widget.animation.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 16, bottom: 23),
@@ -84,7 +168,7 @@ class WorkoutView extends StatelessWidget {
                                       HexColor("#439775"),
                                       HexColor("#439775")
                                     ],
-                                    angle: 100 * animation.value
+                                    angle: 100 * widget.animation.value
                                 ),
                                 child: SizedBox(
                                   width: 208,
@@ -100,7 +184,7 @@ class WorkoutView extends StatelessWidget {
                                       HexColor("#48BF84"),
                                       HexColor("#48BF84")
                                     ],
-                                    angle: 340 * animation.value
+                                    angle: 340 * widget.animation.value
                                 ),
                                 child: SizedBox(
                                   width: 140,
@@ -116,19 +200,21 @@ class WorkoutView extends StatelessWidget {
                                       HexColor("#8A98E8"),
                                       HexColor("#8A98E8")
                                     ],
-                                    angle: 300 * animation.value
+                                    angle: 300 * widget.animation.value
                                 ),
                                 child: SizedBox(
                                   width: 72,
                                   height: 72,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),     
+                    _widget
                     ],
+                    
                         ),
                       )
                   ),
