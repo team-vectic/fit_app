@@ -1,9 +1,12 @@
+import 'dart:math';
+
+import 'package:fit_app/training/add_workout.dart';
 import 'package:fit_app/ui_view/area_list_view.dart';
 import 'package:fit_app/training/running_view.dart';
 import 'package:fit_app/ui_view/title_view.dart';
 import 'package:fit_app/training/workout_view.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hexcolor/hexcolor.dart';
 import '../fitness_app_theme.dart';
 
 class TrainingScreen extends StatefulWidget {
@@ -21,9 +24,38 @@ class TrainingScreenState extends State<TrainingScreen>
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  Shader shaderLinearGradient;
+  LinearGradient linearGradient;  
+  List<LinearGradient> shaders = [
+      LinearGradient(
+      colors: <Color>[HexColor("#8E0E00"), HexColor("#b84f8b")],
+      ),
+      LinearGradient(
+      colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#f46b45"), HexColor("#eea849")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#005C97"), HexColor("#363795")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#e53935"), HexColor("#e35d5b")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#2c3e50"), HexColor("#3498db")],
+      )
+
+
+  ];
 
   @override
   void initState() {
+    Random random = new Random();
+    int randomNumber = random.nextInt(5) + 1; 
+    print(randomNumber);
+    shaderLinearGradient = shaders[randomNumber-1].createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+    linearGradient = shaders[randomNumber-1];
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController,
@@ -62,6 +94,7 @@ class TrainingScreenState extends State<TrainingScreen>
       TitleView(
         titleTxt: 'Your program',
         subTxt: 'Details',
+        linearGradient: shaderLinearGradient,
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -88,27 +121,13 @@ class TrainingScreenState extends State<TrainingScreen>
         animationController: widget.animationController,
       ),
     );
-
     listViews.add(
-      TitleView(
-        titleTxt: 'Area of focus',
-        subTxt: 'more',
+      AddWorkout(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+                Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
-      ),
-    );
-
-    listViews.add(
-      AreaListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
       ),
     );
   }
@@ -219,68 +238,7 @@ class TrainingScreenState extends State<TrainingScreen>
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: FitnessAppTheme.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FitnessAppTheme.white,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FitnessAppTheme.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FitnessAppTheme.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        ],
                         ),
                       )
                     ],

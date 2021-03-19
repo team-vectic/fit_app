@@ -167,10 +167,12 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
           fatleft = fatgoal - fat;
           proteinleft = proteingoal - protein;
           
-          setState(() {
-              addAllListData();
+          if (this.mounted) {
+            setState(() {
+                addAllListData();
+            });
 
-          });
+          }
         }
       });
 
