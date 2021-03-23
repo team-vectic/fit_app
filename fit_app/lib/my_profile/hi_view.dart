@@ -72,6 +72,7 @@ class WelcomeView extends StatelessWidget {
                           );
                         },
                         child:
+                        //TODO - UI problem in different devices IDO;  
                       Container(
                         child: Row(
                           children: [

@@ -24,7 +24,6 @@ dependencies:
   firebase_core: "^0.7.0"
   firebase_auth: "^0.20.1"
   firebase_database: "6.0.0"
-
   permission_handler: any
   fit_kit: ^1.1.2
   hexcolor: ^2.0.3

@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:fit_app/my_diary/meals_list_view.dart';
 import 'package:fit_app/training/add_workout.dart';
+import 'package:fit_app/training/workout_list_view.dart';
 import 'package:fit_app/ui_view/area_list_view.dart';
 import 'package:fit_app/training/running_view.dart';
 import 'package:fit_app/ui_view/title_view.dart';
@@ -128,6 +130,16 @@ class TrainingScreenState extends State<TrainingScreen>
             curve:
                 Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
+      ),
+    );
+    listViews.add(
+      WorkoutListView(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+                parent: widget.animationController,
+                curve: Interval((1 / count) * 3, 1.0,
+                    curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController,
       ),
     );
   }

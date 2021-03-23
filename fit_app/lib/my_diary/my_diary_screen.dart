@@ -141,47 +141,50 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
           fat = value["fat"];
           protein = value["protein"];
           carbs = value["carbs"];
-        }
-      });
-      FirebaseDatabase.instance.reference().child('users').child("$userid").
-      child("food").child("$today").child("burned").once().
-      then((DataSnapshot snapshot){
-        var value = snapshot.value;
-        if(value != null)
-        {
-          burned = value["burned"];
-        }
-      });
-      FirebaseDatabase.instance.reference().child('users').child("$userid").
-      child("bodydata").once().
-      then((DataSnapshot snapshot){
-        var value = snapshot.value;
-        if(value != null)
-        {
-          caloriegoal = value["caloriegoal"];
-          carbsgoal = value["carbsgoal"];
-          fatgoal = value["fatgoal"];
-          proteingoal = value["proteingoal"];
-          kcalleft = caloriegoal - eaten;
-          carbsleft = carbsgoal - carbs;
-          fatleft = fatgoal - fat;
-          proteinleft = proteingoal - protein;
-          
-          if (this.mounted) {
-            setState(() {
-                addAllListData();
-            });
 
-          }
+          FirebaseDatabase.instance.reference().child('users').child("$userid").
+          child("food").child("$today").child("burned").once().
+          then((DataSnapshot snapshot){
+            var value = snapshot.value;
+            if(value != null)
+            {
+              burned = value["burned"];
+            }
+          });
+          FirebaseDatabase.instance.reference().child('users').child("$userid").
+          child("bodydata").once().
+          then((DataSnapshot snapshot){
+            var value = snapshot.value;
+            if(value != null)
+            {
+              caloriegoal = value["caloriegoal"];
+              carbsgoal = value["carbsgoal"];
+              fatgoal = value["fatgoal"];
+              proteingoal = value["proteingoal"];
+              kcalleft = caloriegoal - eaten;
+              carbsleft = carbsgoal - carbs;
+              fatleft = fatgoal - fat;
+              proteinleft = proteingoal - protein;
+              
+              
+                setState(() {
+                    addAllListData();
+                });
+              
+
+            }
+          });
+
         }
       });
-
 
 
     super.initState();
   }
 
   void resetTodayData(){
+   // TODO - Reset the overview tab; IDO
+   
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String today = formatter.format(now);

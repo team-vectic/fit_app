@@ -102,8 +102,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
       FirebaseDatabase.instance.reference().child('users').child("$userid").
       child("food").child("$today").child("burned")      
       .set({
-        "burned":0
-        //maybe activities here? 
+        "data": ""
       })
       .then((value) =>       
         Navigator.push(

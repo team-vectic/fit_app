@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class FitnessAppAnim extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Welcome To FitApp',
