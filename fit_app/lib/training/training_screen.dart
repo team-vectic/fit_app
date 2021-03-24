@@ -133,6 +133,9 @@ class TrainingScreenState extends State<TrainingScreen>
       ),
     );
     listViews.add(
+      SizedBox(height: 10)
+    );
+    listViews.add(
       WorkoutListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
@@ -142,6 +145,8 @@ class TrainingScreenState extends State<TrainingScreen>
         mainScreenAnimationController: widget.animationController,
       ),
     );
+
+
   }
 
   Future<bool> getData() async {

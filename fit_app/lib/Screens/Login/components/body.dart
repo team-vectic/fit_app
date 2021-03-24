@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return FitnessAppHomeScreen();
+                return FitnessAppHomeScreen(selected: 0,);
               },
             ),
           );

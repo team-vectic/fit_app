@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:fit_app/fitness_app_home_screen.dart';
+import 'package:fit_app/training/training_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,17 +19,17 @@ class AddWorkout extends StatefulWidget {
   _AddWorkoutState createState() => _AddWorkoutState();
 }
 
-class _AddWorkoutState extends State<AddWorkout> {
+class _AddWorkoutState extends State<AddWorkout> with TickerProviderStateMixin{
     List<String> selectedActivities = [];
      List<String> activities = [
-        "Walk - 99",
-        "Running - 83",
-        "Cycling - 290",
-        "Eliptical - 100",
-        "Rower - 120",
-        "Stair Stepper - 130",
-        "HIIT - 150",
-        "Hiking - 185",
+        "Walk - 285",
+        "Running - 457",
+        "Cycling - 298",
+        "Eliptical - 400",
+        "Rower - 400",
+        "Stair Stepper - 360",
+        "HIIT - 800",
+        "Hiking - 430",
         "Yoga - 105",
         "Functional Strength Training - 81",
         "Dance - 22",
@@ -93,8 +95,6 @@ class _AddWorkoutState extends State<AddWorkout> {
                 var value = snapshot.value;
                 if(value != null){
                   latestValue = value["data"];
-                  print(latestValue);
-
                   String selectedString = ""; 
                   selectedActivities.forEach((element) {
                     selectedString = selectedString + element.toString();
@@ -106,8 +106,14 @@ class _AddWorkoutState extends State<AddWorkout> {
                   FirebaseDatabase.instance.reference().child('users').child("$userid").
                   child("food").child("$today").child("burned").update({
                     "data" : latestValue != "" ? latestValue + " , " + selectedString : selectedString 
-                  }); 
-                
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FitnessAppHomeScreen(
+                        selected: 1,
+                      
+                      )),
+                    );                  
                 }
               
               });

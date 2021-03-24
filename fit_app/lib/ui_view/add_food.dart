@@ -288,7 +288,7 @@ class ListItem extends StatelessWidget {
                 .then((value) =>       
                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
+                  MaterialPageRoute(builder: (context) => FitnessAppHomeScreen(selected: 0,))
                 ),          
                 )
                 .catchError((error) => print("Failed to add user: $error"));
@@ -324,7 +324,7 @@ class ListItem extends StatelessWidget {
                   .then((value) =>       
                     Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
+                    MaterialPageRoute(builder: (context) => FitnessAppHomeScreen(selected: 0,))
                   ),          
                   )
                   .catchError((error) => print("Failed to add user: $error"));
@@ -351,7 +351,7 @@ class ListItem extends StatelessWidget {
                 .then((value) =>       
                   Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
+                  MaterialPageRoute(builder: (context) => FitnessAppHomeScreen(selected: 0,))
                 ),          
                 )
                 .catchError((error) => print("Failed to add user: $error"));

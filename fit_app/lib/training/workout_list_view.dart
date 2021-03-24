@@ -37,16 +37,21 @@ class WorkoutListViewState extends State<WorkoutListView>
         if (rawList.length != 0)
         {
           rawList.forEach((element) {
+             
+             
              var splitted = element.toString().split(" - ");
-            workoutListData.add(
-            Workout(
-                imagePath: 'lib/assets/fitness_app/breakfast.png',
-                titleTxt: splitted[0],
-                calories: double.tryParse(splitted[1]),
-                startColor: '#FA7D82',
-                endColor: '#FFB295',
-            ),
-          );
+            try {
+                var imagePath = getPath(splitted[0].replaceAll(" ", ""));
+                workoutListData.add(
+                Workout(
+                    titleTxt: splitted[0].startsWith(" ") ? splitted[0].replaceRange(0 , 1 , "") : splitted[0],
+                    calories: double.tryParse(splitted[1]),
+                    imagePath: imagePath 
+                ),
+              );
+
+            } catch (e) {
+            }
 
           });    
 
@@ -70,6 +75,52 @@ class WorkoutListViewState extends State<WorkoutListView>
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
   }
+  getPath(var title) {
+      switch (title.toString().toLowerCase()) {
+        case "walk":
+          return 'lib/assets/fitness_app/activities/walk.png';
+          break;
+        case "running":
+          return 'lib/assets/fitness_app/activities/running.png';
+          break;
+        case "cycling":
+          return 'lib/assets/fitness_app/activities/cycling.png';
+          break;
+        case "eliptical":
+          return 'lib/assets/fitness_app/activities/eliptical.png';
+          break;
+        case "rower":
+          return 'lib/assets/fitness_app/activities/rower.png';
+          break;
+        case "stairstepper":
+          return 'lib/assets/fitness_app/activities/stairstepper.png';
+          break;
+        case "hiit":
+          return 'lib/assets/fitness_app/activities/hiit.png';
+          break;
+        case "hiking":
+          return 'lib/assets/fitness_app/activities/hiking.png';
+          break;
+        case "yoga":
+          return 'lib/assets/fitness_app/activities/yoga.png';
+          break;
+        case "functionalstrengthtraining":
+          return 'lib/assets/fitness_app/activities/functional.png';
+          break;
+        case "dance":
+          return 'lib/assets/fitness_app/activities/dance.png';
+          break;
+        case "coretraining":
+          return 'lib/assets/fitness_app/activities/coretraining.png';
+          break;
+        case "swimming":
+          return 'lib/assets/fitness_app/activities/swimming.png';
+          break;
+        case "wheelchair":
+          return 'lib/assets/fitness_app/activities/wheelchair.png';
+          break;
+      }
+  }
 
   @override
   void dispose() {
@@ -88,9 +139,12 @@ class WorkoutListViewState extends State<WorkoutListView>
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation.value), 0.0),
             child: Container(
-              height: 316,
+              height: 300,
               width: 500,
               child: workoutListData.length != 0 ? 
+              Padding(
+              padding: EdgeInsets.all(8),
+              child:
               ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
@@ -113,7 +167,7 @@ class WorkoutListViewState extends State<WorkoutListView>
                     animationController: animationController,
                   );
                 },
-              ) :              
+              )) :              
                SizedBox(
               width: 130,
               child: Stack(
@@ -145,7 +199,7 @@ class WorkoutListViewState extends State<WorkoutListView>
                                     scrollDirection: Axis.vertical,
                                     child: 
                                     Text(
-                                      "Pretty lonely here... Maybe workout?",
+                                      "Pretty sad here... Maybe workout?",
                                       style: TextStyle(
                                         fontFamily: FitnessAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
@@ -185,12 +239,12 @@ class WorkoutListViewState extends State<WorkoutListView>
               ),
             ),
             )
-          )
-            
+          ) 
         );
       },
     );
   }
+
 }
 
 class WorkoutsView extends StatelessWidget {
@@ -215,7 +269,7 @@ class WorkoutsView extends StatelessWidget {
                 100 * (1.0 - animation.value), 0.0, 0.0),
             child:  SizedBox(
               width: 330,
-              height: 200,
+              height: 170,
               child: Stack(
                 children: <Widget>[
                   Padding(
@@ -223,21 +277,14 @@ class WorkoutsView extends StatelessWidget {
                         top: 32, left: 8, right: 8, bottom: 16),
                     child: Container(
                       decoration: BoxDecoration(
+                        color: FitnessAppTheme.nearlyDark,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: HexColor(workoutListData.endColor)
+                              color: (FitnessAppTheme.darkBackground)
                                   .withOpacity(0.6),
                               offset: const Offset(1.1, 4.0),
                               blurRadius: 8.0),
                         ],
-                        gradient: LinearGradient(
-                          colors: <HexColor>[
-                            HexColor(workoutListData.startColor),
-                            HexColor(workoutListData.endColor),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
                         borderRadius: const BorderRadius.only(
                           bottomRight: Radius.circular(8.0),
                           bottomLeft: Radius.circular(8.0),
@@ -264,7 +311,7 @@ class WorkoutsView extends StatelessWidget {
                               ),
                             ),
                             workoutListData.calories != 0
-                                ? Row(
+                                ?  Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
@@ -295,28 +342,7 @@ class WorkoutsView extends StatelessWidget {
                                         ),
                                       ),
                                     ],
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      color: FitnessAppTheme.nearlyWhite,
-                                      shape: BoxShape.circle,
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: FitnessAppTheme.nearlyBlack
-                                                .withOpacity(0.4),
-                                            offset: Offset(8.0, 8.0),
-                                            blurRadius: 8.0),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: HexColor(workoutListData.endColor),
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ),
+                                  ) : Container()
                           ],
                         ),
                       ),
@@ -338,8 +364,8 @@ class WorkoutsView extends StatelessWidget {
                     top: 0,
                     left: 5,
                     child: SizedBox(
-                      width: 80,
-                      height: 80,
+                      width: 60,
+                      height: 60,
                       child: Image.asset(workoutListData.imagePath),
                     ),
                   )

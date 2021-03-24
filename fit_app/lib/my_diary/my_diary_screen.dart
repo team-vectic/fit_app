@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:fit_app/bottom_navigation_view/bottom_bar_view.dart';
 import 'package:fit_app/fitness_app_home_screen.dart';
+import 'package:fit_app/models/tabIcon_data.dart';
+import 'package:fit_app/ui_view/add_food.dart';
 import 'package:fit_app/ui_view/body_measurement.dart';
 import 'package:fit_app/ui_view/glass_view.dart';
 import 'package:fit_app/ui_view/mediterranesn_diet_view.dart';
@@ -50,46 +54,13 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   var userid, eaten, burned, carbs, protein, fat, carbsgoal, fatgoal, proteingoal, caloriegoal; 
-  String todayMonth, todayDay; 
   var kcalleft, fatleft, carbsleft, proteinleft, angle;
+  bool _isSelected = false;
   FirebaseAuth auth = FirebaseAuth.instance; 
-
-  String returnMonth(month){
-    switch (month) {
-        case 1:
-          month = "January";
-          break;
-        case 2:
-          return "February";
-          
-        case 3:
-          return "March";
-
-        case 4:
-          return "April";
-        case 5:
-          return "May";
-        case 6:
-          return "June";
-        case 7:
-          return "July";
-        case 8:
-          return "August";
-        case 9:
-          return "September";
-        case 10:
-          return "October";
-        case 11:
-          return "November";
-        case 12:
-          return "december";
-      }
-  }  
   @override   
   void initState() {
           Random random = new Random();
           int randomNumber = random.nextInt(5) + 1; 
-          print(randomNumber);
           shaderLinearGradient = shaders[randomNumber-1].createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
           linearGradient = shaders[randomNumber-1];
           topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -127,10 +98,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
       var now = new DateTime.now();
       var formatter = new DateFormat('yyyy-MM-dd');
       String today = formatter.format(now);
-      todayMonth = returnMonth(now.month);
-      todayDay = now.day.toString();
       var userid =  FirebaseAuth.instance.currentUser.uid;
-      print("user id - $userid - today - $today");
       FirebaseDatabase.instance.reference().child('users').child("$userid").
       child("food").child("$today").child("eaten").once().
       then((DataSnapshot snapshot){
@@ -218,7 +186,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
     runApp(
       new MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: new FitnessAppHomeScreen(),
+        home: new FitnessAppHomeScreen(selected: 0,),
     ));
 
 
@@ -466,64 +434,24 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
                             SizedBox(
                               height: 38,
                               width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: FitnessAppTheme.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FitnessAppTheme.white,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '$todayDay $todayMonth',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FitnessAppTheme.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FitnessAppTheme.white,
-                                  ),
-                                ),
-                              ),
-                            ),
+                              child:  InkWell(
+                                child: Image.asset(_isSelected
+                                ? "lib/assets/fitness_app/tab_adds.png"
+                                : "lib/assets/fitness_app/tab_add.png"),
+                                onTap: () {
+                                  setState(() {
+                                    _isSelected = !_isSelected;
+                                  });
+                                  Timer(Duration(milliseconds: 500), () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => FitnessAppHomeScreen(selected: 3)),
+                                    );
+                                  }); 
+
+                                }
+                              )
+                              )
                           ],
                         ),
                       )
@@ -537,4 +465,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
       ],
     );
   }
+
+
 }

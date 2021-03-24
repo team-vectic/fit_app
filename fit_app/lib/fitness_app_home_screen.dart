@@ -12,6 +12,10 @@ import 'package:firebase_database/firebase_database.dart';
 void main() => runApp(new FitnessAppHomeScreen());
 
 class FitnessAppHomeScreen extends StatefulWidget {
+
+    FitnessAppHomeScreen({Key key, this.selected, }) : super(key: key);
+    var selected = 0;
+
   @override
   _FitnessAppHomeScreenState createState() => _FitnessAppHomeScreenState();
 }
@@ -120,10 +124,10 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
     tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
-    tabIconsList[0].isSelected = true;
+    tabIconsList[widget.selected].isSelected = true;
     animationController = AnimationController(
     duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = MyDiaryScreen(animationController: animationController);
+    tabBody = widget.selected == 0 ? MyDiaryScreen(animationController: animationController) : widget.selected == 1 ? TrainingScreen(animationController: animationController) : widget.selected == 3 ? FoodPage() : MyDiaryScreen(animationController: animationController);
 
     super.initState();
 
@@ -212,7 +216,7 @@ Widget bottomBar() {
                       MyDiaryScreen(animationController: animationController);
                 });
               });
-            } else if (index == 1 || index == 2) {
+            } else if (index == 1) {
               animationController.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -223,7 +227,7 @@ Widget bottomBar() {
                 });
               });
             }
-            else if (index == 3) {
+            else if (index == 2) {
               animationController.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -238,7 +242,7 @@ Widget bottomBar() {
                 });
               });
             }
-            else if (index == 4) {
+            else if (index == 3) {
               animationController.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;

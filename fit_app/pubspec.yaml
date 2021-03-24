@@ -67,6 +67,7 @@ flutter:
   assets:
      - lib/assets/fitness_app/
      - lib/assets/icons/
+     - lib/assets/fitness_app/activities/
      - lib/assets/images/
      - lib/assets/launcher/
   # An image asset can refer to one or more resolution-specific "variants", see

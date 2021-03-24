@@ -37,7 +37,7 @@ void main() async {
 
       } else 
       {
-        runApp(FitnessAppHomeScreen());
+        runApp(FitnessAppHomeScreen(selected: 0));
       }
 
 }
