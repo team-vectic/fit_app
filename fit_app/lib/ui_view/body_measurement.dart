@@ -79,7 +79,7 @@ class _BodyMeasurementViewState extends State<BodyMeasurementView> {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.white.withOpacity(0.2),
+                        color: FitnessAppTheme.nearlyDark.withOpacity(0.2),
                         offset: Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],

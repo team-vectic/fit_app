@@ -55,7 +55,6 @@ class TrainingScreenState extends State<TrainingScreen>
   void initState() {
     Random random = new Random();
     int randomNumber = random.nextInt(5) + 1; 
-    print(randomNumber);
     shaderLinearGradient = shaders[randomNumber-1].createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
     linearGradient = shaders[randomNumber-1];
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -136,6 +135,21 @@ class TrainingScreenState extends State<TrainingScreen>
       SizedBox(height: 10)
     );
     listViews.add(
+      TitleView(
+        titleTxt: 'Your Workouts',
+        linearGradient: shaderLinearGradient,
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+    listViews.add(
+      SizedBox(height: 35)
+    );
+
+    listViews.add(
       WorkoutListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
@@ -144,6 +158,10 @@ class TrainingScreenState extends State<TrainingScreen>
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
       ),
+    );
+
+    listViews.add(
+      SizedBox(height: 15)
     );
 
 

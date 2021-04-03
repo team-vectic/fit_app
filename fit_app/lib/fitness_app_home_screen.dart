@@ -26,6 +26,8 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
   var protein, carbs, fat, watersofar, lastdrink, breakfast;
+  bool addedToday = false;
+  bool addTodayNecessary = false; 
   Widget tabBody = Container(
     color: FitnessAppTheme.background,
   );
@@ -35,7 +37,6 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
     FirebaseDatabase.instance.reference().child('users').child("$userid").
       child("food").child("$today").child("eaten")      
       .set({
-        'drinken':0,
         'carbs' : 0,
         'protein' : 0,
         'fat' : 0,
@@ -115,6 +116,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
       ),          
       )
       .catchError((error) => print("Failed to add user: $error"));
+      addedToday = true;
     }      
 
 
@@ -142,6 +144,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
       var value = snapshot.value;
       if(value == null)
       {
+        addTodayNecessary = true;
         addToday(today);
       }
       else
@@ -160,13 +163,14 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
   void dispose() {
     animationController.dispose();
     super.dispose();
+
   }
 
 
   @override
   Widget build(BuildContext context) {
 
-return MaterialApp(
+  return MaterialApp(
       color: FitnessAppTheme.darkBackground,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -178,8 +182,9 @@ return MaterialApp(
               return const SizedBox();
             } else {
               return Stack(
-                children: <Widget>[
-                  tabBody,
+                children: <Widget>[ 
+                  addTodayNecessary == true && addedToday == true ?
+                  tabBody : addTodayNecessary == false ? tabBody : Container(),
                   bottomBar(),
                 ],
               );

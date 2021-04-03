@@ -18,9 +18,8 @@ class WorkoutListView extends StatefulWidget {
   WorkoutListViewState createState() => WorkoutListViewState();
 }
 
-class WorkoutListViewState extends State<WorkoutListView>
-    with TickerProviderStateMixin {
-      List<String> rawList;
+class WorkoutListViewState extends State<WorkoutListView> with TickerProviderStateMixin {
+  List<String> rawList;
 
   void getWorkoutList(){
     var now = new DateTime.now();
@@ -55,8 +54,11 @@ class WorkoutListViewState extends State<WorkoutListView>
 
           });    
 
+        }}
+        else
+        {
+          print("data is null");
         }
-      }
       });
   }
 
@@ -119,6 +121,9 @@ class WorkoutListViewState extends State<WorkoutListView>
         case "wheelchair":
           return 'lib/assets/fitness_app/activities/wheelchair.png';
           break;
+        case "slackline":
+          return 'lib/assets/fitness_app/activities/slackline.png';
+          break;
       }
   }
 
@@ -167,7 +172,7 @@ class WorkoutListViewState extends State<WorkoutListView>
                     animationController: animationController,
                   );
                 },
-              )) :              
+              )) : workoutListData != null ?             
                SizedBox(
               width: 130,
               child: Stack(
@@ -237,7 +242,7 @@ class WorkoutListViewState extends State<WorkoutListView>
                   )
                 ],
               ),
-            ),
+            ) : Container()
             )
           ) 
         );

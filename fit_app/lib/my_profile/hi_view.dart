@@ -1,10 +1,10 @@
-import 'dart:math' as math;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:fit_app/Screens/Welcome/welcome_screen.dart';
-import 'package:fit_app/ui_view/add_food.dart';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../fitness_app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-class WelcomeView extends StatelessWidget {
+class WelcomeView extends StatefulWidget {
   final AnimationController animationController;
   final Animation animation;
 
@@ -12,15 +12,44 @@ class WelcomeView extends StatelessWidget {
       : super(key: key);
 
   @override
+  _WelcomeViewState createState() => _WelcomeViewState();
+}
+
+
+class _WelcomeViewState extends  State<WelcomeView>  {
+  var username; 
+
+  void getUsername(){
+      var userid =  FirebaseAuth.instance.currentUser.uid;
+      FirebaseDatabase.instance.reference().child('users').child("$userid").
+      once().
+      then((DataSnapshot snapshot){
+        var value = snapshot.value;
+        if(value != null)
+        {
+          username = value["email"].toString();
+          setState(() {
+            username = username.substring(0, username.toString().indexOf('@'));
+          });
+        }
+      });
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    getUsername();
+  }
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animationController,
+      animation: widget.animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
-          opacity: animation,
+          opacity: widget.animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
+                0.0, 30 * (1.0 - widget.animation.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 16, bottom: 1),
@@ -47,8 +76,8 @@ class WelcomeView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 4, bottom: 2),
-                        child: Text(
-                          'Hello @iDo',
+                        child: Text(username != null ?
+                          'Hello @$username' : 'Hello',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily:
@@ -68,17 +97,15 @@ class WelcomeView extends StatelessWidget {
                                 debugShowCheckedModeBanner: false,
                                 home: new WelcomeScreen(),
                             )
-
                           );
                         },
                         child:
-                        //TODO - UI problem in different devices IDO;  
                       Container(
                         child: Row(
                           children: [
                             Padding(
                             padding: const EdgeInsets.only(
-                                left: 120, bottom: 2),
+                                left: 12, bottom: 2),
                             child: Text(
                               'Logout',
                               textAlign: TextAlign.center,
@@ -116,7 +143,7 @@ class WelcomeView extends StatelessWidget {
                   );
       }
 }
-  
+ 
 class CurvePainter extends CustomPainter {
   final double angle;
   final List<Color> colors;

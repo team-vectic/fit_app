@@ -55,7 +55,8 @@ class _HelpViewState extends State<HelpView>with TickerProviderStateMixin {
             avatar = str;
 
       });
-      Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true)
+          .pop(false); // dismisses only the dialog and returns false
   }
   void changeAvatar()
   {

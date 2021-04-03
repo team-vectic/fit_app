@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:fit_app/fitness_app_anim.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var status = await Permission.activityRecognition.status;
   print(status);
-  if (status.isDenied) {
+  if (status.isDenied || status.isUndetermined) {
     // We didn't ask for permission yet or the permission has been denied before but not permanently.
     Map<Permission, PermissionStatus> statuses = await [
     Permission.activityRecognition,

@@ -1,12 +1,10 @@
-import 'package:fit_app/Screens/Welcome/welcome_screen.dart';
+import 'dart:math';
+
 import 'package:fit_app/my_profile/actions_view.dart';
 import 'package:fit_app/my_profile/help_view.dart';
-import 'package:fit_app/ui_view/area_list_view.dart';
-import 'package:fit_app/training/running_view.dart';
 import 'package:fit_app/ui_view/title_view.dart';
-import 'package:fit_app/training/workout_view.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hexcolor/hexcolor.dart';
 import '../fitness_app_theme.dart';
 import 'hi_view.dart';
 
@@ -21,6 +19,30 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+  Shader shaderLinearGradient;
+  LinearGradient linearGradient;  
+  List<LinearGradient> shaders = [
+      LinearGradient(
+      colors: <Color>[HexColor("#8E0E00"), HexColor("#b84f8b")],
+      ),
+      LinearGradient(
+      colors: <Color>[Color(0xffDA44bb), Color(0xff8921aa)],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#f46b45"), HexColor("#eea849")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#005C97"), HexColor("#363795")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#e53935"), HexColor("#e35d5b")],
+      ),
+      LinearGradient(
+      colors: <Color>[HexColor("#2c3e50"), HexColor("#3498db")],
+      )
+
+
+  ];
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
@@ -32,6 +54,11 @@ class ProfileScreenState extends State<ProfileScreen>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+    Random random = new Random();
+    int randomNumber = random.nextInt(5) + 1; 
+    shaderLinearGradient = shaders[randomNumber-1].createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+    linearGradient = shaders[randomNumber-1];
+
     addAllListData();
 
     super.initState();
@@ -62,6 +89,7 @@ class ProfileScreenState extends State<ProfileScreen>
     listViews.add(
       TitleView(
         titleTxt: 'Available Actions',
+        linearGradient: shaderLinearGradient,
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:

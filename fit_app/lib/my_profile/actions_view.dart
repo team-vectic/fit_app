@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../fitness_app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flushbar/flushbar.dart';
 
 class ActionView extends StatefulWidget {
   const ActionView(
@@ -19,10 +20,9 @@ class ActionView extends StatefulWidget {
 
 class ActionViewState extends State<ActionView>
     with TickerProviderStateMixin {
-  String email, password; 
+  String email, password, nPassword; 
   AnimationController animationController;
   List<String> areaListData = <String>[
-    'View My Personal Info',
     'Change Password',
     'Delete Account',
     'Reset All Nutrition Goal',
@@ -50,9 +50,17 @@ class ActionViewState extends State<ActionView>
           _changePassword(nPassword);
           } on FirebaseAuthException catch (e) {
           if (e.code == 'user-not-found') {
-          print('No user found for that email.');
+            Flushbar(
+              titleText: Text("No User Found", style: TextStyle(color: Colors.black),),
+              message: " ",
+              backgroundColor: FitnessAppTheme.nearlyWhite,
+            ).show(context);
           } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+            Flushbar(
+              titleText: Text("Wrong password provided for that user.", style: TextStyle(color: Colors.black),),
+              message: " ",
+              backgroundColor: FitnessAppTheme.nearlyWhite,
+            ).show(context);
         }
 }  
 }
@@ -81,6 +89,7 @@ class ActionViewState extends State<ActionView>
                           FirebaseAuth.instance.currentUser.delete();
                             runApp(
                               new MaterialApp(
+                                debugShowCheckedModeBanner: false,
                                 home: new WelcomeScreen(),
                             )
                             );
@@ -113,9 +122,23 @@ class ActionViewState extends State<ActionView>
     
       //Pass in the password to updatePassword.
       user.updatePassword(password).then((_){
-        print("Successfully changed password");
+        Navigator.of(context, rootNavigator: true)
+        .pop(false); // dismisses only the dialog and returns false
+
+        Flushbar(
+          titleText: Text("Successfuly changed password!", style: TextStyle(color: Colors.black),),
+          message: " ",
+          backgroundColor: FitnessAppTheme.nearlyWhite,
+        ).show(context);
+
       }).catchError((error){
-        print("Password can't be changed" + error.toString());
+        Flushbar(
+          titleText: Text("Password can't be changed", style: TextStyle(color: Colors.black),),
+          message: " ",
+          backgroundColor: FitnessAppTheme.nearlyWhite,
+        ).show(context);
+
+
         //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
       });
     }
@@ -154,7 +177,7 @@ class ActionViewState extends State<ActionView>
                       return AreaView(
                         name: areaListData[index],
                         function: (){
-                          if (index == 1) {
+                          if (index == 0) {
                             showDialog(context: context, builder:  (_) => 
                             new AlertDialog(
                               backgroundColor: FitnessAppTheme.darkBackground,
@@ -182,7 +205,42 @@ class ActionViewState extends State<ActionView>
                                     FlatButton(
                                       child: Text('Submit'),
                                       onPressed: () {
-                                        newPassword(email, password, "654321");
+                                        
+                                        Navigator.of(context, rootNavigator: true)
+                                        .pop(false); // dismisses only the dialog and returns false
+
+                                        showDialog(context: context, builder:  (_) => 
+                                        new AlertDialog(
+                                          backgroundColor: FitnessAppTheme.darkBackground,
+                                          title: new Text("New Passowrd",style: TextStyle(color: Colors.white),),
+                                          
+                                          actions: <Widget>[
+                                            RoundedPasswordField(
+                                              icon: Icons.lock,
+                                              hintText: "Password 🔑",
+                                              onChanged: (value) {nPassword=value;},
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                FlatButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                FlatButton(
+                                                  child: Text('Submit'),
+                                                  onPressed: () {
+                                                    
+                                                    newPassword(email, password, nPassword);
+                                                  },
+                                                )
+
+                                              ]
+                                            )
+                                          ],
+                                        )
+                                        );
                                       },
                                     )
 
@@ -191,9 +249,8 @@ class ActionViewState extends State<ActionView>
                               ],
                             )
                             );
-                            //_changePassword("1234567");
                           }
-                          if (index == 2) {
+                          if (index == 1) {
                             showDialog(context: context, builder:  (_) => 
                             new AlertDialog(
                               backgroundColor: FitnessAppTheme.darkBackground,

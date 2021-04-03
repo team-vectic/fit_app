@@ -6,6 +6,7 @@ import 'package:fit_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class WaterView extends StatefulWidget {
 
@@ -22,7 +23,7 @@ class WaterView extends StatefulWidget {
 
 class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
   var watergoal, watersofar, lastdrink;
-  final String defaultLocale = Platform.localeName;
+  
   void updateWater(var action, var userid){
       var now = new DateTime.now();
       var formatter = new DateFormat('yyyy-MM-dd');
@@ -31,6 +32,8 @@ class _WaterViewState extends State<WaterView> with TickerProviderStateMixin {
       if(action == "+" && watersofar >= 0){
         setState(() {
           watersofar += 100; 
+          initializeDateFormatting();
+          final String defaultLocale = Platform.localeName;
           FirebaseDatabase.instance.reference().child('users').child("$userid").child("food").
           child("$today").child("eaten").update({
             "watersofar" : watersofar,

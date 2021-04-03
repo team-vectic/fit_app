@@ -33,7 +33,7 @@ class _MealsListViewState extends State<MealsListView>
       var value = snapshot.value;
       if(value != null)
       {
-        breakfast = value["data"].split(",");
+        breakfast = value["data"].split(", ");
         var kcal = breakfast.last;
         var intKcal;  
         try {
@@ -385,8 +385,8 @@ class MealsView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            mealsListData.kacl != 0
-                                ? Row(
+                            
+                                Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
@@ -418,27 +418,6 @@ class MealsView extends StatelessWidget {
                                       ),
                                     ],
                                   )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      color: FitnessAppTheme.nearlyWhite,
-                                      shape: BoxShape.circle,
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: FitnessAppTheme.nearlyBlack
-                                                .withOpacity(0.4),
-                                            offset: Offset(8.0, 8.0),
-                                            blurRadius: 8.0),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: HexColor(mealsListData.endColor),
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ),
                           ],
                         ),
                       ),

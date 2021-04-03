@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:fit_app/bottom_navigation_view/bottom_bar_view.dart';
 import 'package:fit_app/fitness_app_home_screen.dart';
-import 'package:fit_app/models/tabIcon_data.dart';
-import 'package:fit_app/ui_view/add_food.dart';
 import 'package:fit_app/ui_view/body_measurement.dart';
 import 'package:fit_app/ui_view/glass_view.dart';
 import 'package:fit_app/ui_view/mediterranesn_diet_view.dart';
@@ -151,12 +148,26 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
   }
 
   void resetTodayData(){
-   // TODO - Reset the overview tab; IDO
    
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String today = formatter.format(now);
     userid =  FirebaseAuth.instance.currentUser.uid;
+    FirebaseDatabase.instance.reference().child('users').child("$userid").
+      child("food").child("$today").child("eaten")      
+      .update({
+        'carbs' : 0,
+        'protein' : 0,
+        'fat' : 0,
+        'eaten' : 0,
+      })
+      .then((value) =>       
+        Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FitnessAppHomeScreen())
+      ),          
+      )
+      .catchError((error) => print("Failed to add user: $error"));
 
     FirebaseDatabase.instance.reference().child('users').child("$userid").
     child("food").child("$today").child("eaten").child("breakfast")      
@@ -294,7 +305,47 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
         linearGradient: 
         shaderLinearGradient,
         titleTxt: 'Water',
-        subTxt: 'More about drinking times',
+        subTxt: 'When should I drink?',
+        subTap: () {
+              showDialog(context: context, 
+              builder:(BuildContext context) {
+                return AlertDialog(
+                  backgroundColor: FitnessAppTheme.darkBackground,
+                  title: new Text("When should I drink?", style: TextStyle(color: Colors.white),),
+                  content:
+                      Container(
+                        height: 250,
+                       child: Column(
+                        children: <Widget>[
+                          Text("When you wake up, 1 one to 2 cups of water", style: TextStyle(color: Colors.white),),
+                          SizedBox(height: 10,),
+                          Text("Try to drink 1 cup of water during each meal ", style: TextStyle(color: Colors.white),),
+                          SizedBox(height: 10,),
+                          Text("Hydrate smartly before, during and after exercise", style: TextStyle(color: Colors.white),),
+                          SizedBox(height: 10,),
+                          Text("Drink a sip of water before going to sleep", style: TextStyle(color: Colors.white),),
+                          SizedBox(height: 30,),
+                          Text("Drinking Water Is Important For Pyhsical Change", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+
+                        ]
+                      ),
+
+                      ),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("OK", style: TextStyle(color: Colors.white)),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true)
+                        .pop(false); // dismisses only the dialog and returns false
+
+
+                      },
+                    ),
+                  ],
+                );
+              });
+        },
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:
@@ -431,13 +482,17 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: linearGradient,
+                                shape: BoxShape.circle
+                              ),
                               height: 38,
                               width: 38,
-                              child:  InkWell(
+                              child: InkWell(
                                 child: Image.asset(_isSelected
                                 ? "lib/assets/fitness_app/tab_adds.png"
-                                : "lib/assets/fitness_app/tab_add.png"),
+                                : "lib/assets/fitness_app/tab_add.png", fit: BoxFit.fill,),
                                 onTap: () {
                                   setState(() {
                                     _isSelected = !_isSelected;
@@ -451,7 +506,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen> with TickerProviderStateM
 
                                 }
                               )
-                              )
+                            )
                           ],
                         ),
                       )
