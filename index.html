@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Ido</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-faded">
+        <img class="navbar-brand" src="https://cdn.discordapp.com/attachments/770342013140336660/827300809820995595/overthinking_vegeta.jpg" height=75px></img>
+        <button class="navbar-toggler navbar-toggler-right" typ
+        e="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav m-auto">
+
+            <li class="nav-item active">
+              <a class="nav-link" href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/aboutme.html">About me</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <button type="button" onclick="window.location.href='/portfolio.html'" class="btn btn-warning">Portfolio</button>
+
+      </nav>
+      <div class="body" style="display: none;">
+
+      <section class="has-divider">
+        <div class="container" data-aos="fade-up">
+          <div class="row align-items-center justify-content-around">
+            <div class="col-md-5 mb-6">
+              <div class="decoration top left scale-2 d-none d-md-block">
+                <img class="bg-primary-2" src="http://www.sitegeek.in/wp-content/uploads/2018/07/shape1.jpg" alt="deco-blob-13 decoration" data-inject-svg />
+              </div>
+            </div>
+            <div class="col-xl-5 col-md-6">
+              <div class="h1">
+                <div>Hey, I&#39;m Ido, A</div>
+                <h1 id="typewrite-h1">
+                  <a class="typewrite" data-period="1200" data-type='[ "Developer", "Student", "Self-Learner" ]'>
+                  </a>
+                </h1>  
+  
+              </div>
+              <p class="lead">I am Ido I&#39;m studying Computer Science and just having fun.</p>
+              <img class="icon icon bg-primary-3" src="https://image.flaticon.com/icons/png/512/25/25231.png" height=30px alt="github social icon" data-inject-svg />
+              <a target="_blank" href="https://github.com/idocalm" class="lead">@idocalm</a>
+            </div>
+          </div>
+        </div>
+        <div class="divider flip-x">
+        </div>
+      </div>
+
+      </section>
+      
+      
+      <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+</body>
+</html>
+<script>
+
+
+$(document).ready(function () {
+      $('div.body').fadeIn(1000);
+});
+
+
+var TxtType = function(el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+    };
+
+    TxtType.prototype.tick = function() {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 500;
+        }
+
+        setTimeout(function() {
+        that.tick();
+        }, delta);
+    };
+
+    window.onload = function() {
+        var elements = document.getElementsByClassName('typewrite');
+        for (var i=0; i<elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-type');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+              new TxtType(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #111}";
+        document.body.appendChild(css);
+    };
+    
+</script>

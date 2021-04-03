@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Ido</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css'>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-faded">
+        <img class="navbar-brand" src="https://cdn.discordapp.com/attachments/770342013140336660/827300809820995595/overthinking_vegeta.jpg" height=75px></img>
+        <button class="navbar-toggler navbar-toggler-right" typ
+        e="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav m-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/index.html">Home</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/aboutme.html">About me</a>
+              </li>
+                <li class="nav-item active">
+              <a class="nav-link" href="/contact.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <button type="button" onclick="window.location.href='/portfolio.html'" class="btn btn-warning">Portfolio</button>
+
+      </nav>
+      <div class="body" style="display: none;">
+
+      <div id="contact" class="content">
+        <div class="container">
+        <div class="row">
+        <div class="col-md-6">
+        <img src="https://preview.colorlib.com/theme/bootstrap/signup-form-07/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+        <div class="row justify-content-center">
+        <div class="col-md-8">
+        <div class="mb-4">
+        <h3>Contact</h3>
+        <p class="mb-4">If you have a badass project and looking for a developer... Im here! </p> <p id='note'>p.s - pls dont spam me thx</p>
+        </div>
+        <form action="#" method="post">
+        <div class="form-group first">
+        <label for="fullname">Full name</label>
+        <input type="text" class="form-control" id="fullname">
+        </div>
+        <div class="form-group">
+        <label for="message">Message/offer</label>
+        <input type="text" class="form-control" id="message">
+        </div>
+        <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" id="email">
+        </div>
+        <input id="send" type="submit" value="Send (:" class="btn btn-block btn-primary">
+        </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+      
+      
+      <script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+
+</body>
+<script>
+  $(document).ready(function () {
+      $('div.body').fadeIn(1000);
+  });
+
+
+</script>
+</html>
